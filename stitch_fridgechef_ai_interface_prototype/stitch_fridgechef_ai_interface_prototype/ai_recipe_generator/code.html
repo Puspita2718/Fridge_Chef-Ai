@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FridgeChef AI - Recipe Generator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Geist:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#213145",
+                    "on-secondary-container": "#5c2400",
+                    "inverse-primary": "#4ae176",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed-dim": "#4ae176",
+                    "on-surface-variant": "#3d4a3d",
+                    "on-primary-fixed-variant": "#005321",
+                    "secondary-fixed-dim": "#ffb690",
+                    "surface-container-low": "#eff4ff",
+                    "surface-variant": "#d3e4fe",
+                    "tertiary-fixed": "#dae2fd",
+                    "surface-container-high": "#dce9ff",
+                    "surface-tint": "#006e2f",
+                    "surface-dim": "#cbdbf5",
+                    "inverse-on-surface": "#eaf1ff",
+                    "outline": "#6d7b6c",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#783200",
+                    "on-primary-fixed": "#002109",
+                    "primary": "#006e2f",
+                    "background": "#f8f9ff",
+                    "on-error": "#ffffff",
+                    "tertiary": "#565e74",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#22c55e",
+                    "on-tertiary-container": "#383f54",
+                    "on-background": "#0b1c30",
+                    "on-primary-container": "#004b1e",
+                    "secondary": "#9d4300",
+                    "on-tertiary-fixed": "#131b2e",
+                    "surface": "#f8f9ff",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed": "#341100",
+                    "secondary-container": "#fd761a",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "surface-bright": "#f8f9ff",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed": "#ffdbca",
+                    "primary-fixed": "#6bff8f",
+                    "outline-variant": "#bccbb9",
+                    "surface-container": "#e5eeff",
+                    "tertiary-container": "#a4abc4"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1200px",
+                    "margin-mobile": "16px",
+                    "unit": "8px",
+                    "stack-lg": "32px",
+                    "gutter": "24px",
+                    "stack-sm": "8px",
+                    "stack-md": "16px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "label-sm": ["Geist"],
+                    "headline-sm": ["Inter"],
+                    "label-md": ["Geist"],
+                    "body-md": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-layer {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .card-shadow {
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 20px 25px -5px rgba(15, 23, 42, 0.04);
+        }
+        .masonry-grid {
+            column-count: 1;
+            column-gap: 24px;
+        }
+        @media (min-width: 640px) { .masonry-grid { column-count: 2; } }
+        @media (min-width: 1024px) { .masonry-grid { column-count: 3; } }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 24px;
+        }
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-surface/80 backdrop-blur-xl sticky top-0 z-40 w-full border-b border-surface-variant/30 shadow-sm">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary">
+<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcuvgQKF1V5EVlFM5bgY1dVBfxp-b0aeyOh4BitCE5fFUoSMdpvkPv9EMOPmyZXRn7X2inWmY-A7ut94mfQocjL1FJqpJ5F2RWwaBW3vGLrZuRsiAYHyspIw-WVYHX-pmuO7THcIfK1wvTJYkDmJF6Mqxuia95KuKLjR081hSbh342Xni9y7PBTiB_hoOwOf9IxnPqENJMyVjWkUQUeGqccTKdUZPRV-u6bQM5hhp3cIy7pVwzRqoWV2PdHY1V1S5Dev7zWUSM__-O"/>
+</div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-headline-md text-primary tracking-tight">FridgeChef AI</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity p-2 active:scale-95 duration-200">notifications</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-8">
+<!-- Search & Filter Section -->
+<section class="mb-stack-lg">
+<div class="max-w-2xl mx-auto space-y-6">
+<!-- Search Bar -->
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full pl-12 pr-4 py-4 bg-[#F5F5F5] border-none rounded-xl focus:ring-2 focus:ring-primary focus:bg-white transition-all duration-300 shadow-sm text-body-lg placeholder:text-outline/60" placeholder="What can I cook today?" type="text"/>
+<button class="absolute inset-y-2 right-2 px-6 bg-primary text-on-primary rounded-lg font-label-md active:scale-95 transition-transform">
+                        Generate
+                    </button>
+</div>
+<!-- Filters -->
+<div class="flex flex-wrap gap-2 justify-center">
+<button class="px-5 py-2 rounded-full bg-primary-container/20 text-on-primary-container font-label-md hover:bg-primary-container/30 transition-colors border border-primary/10">
+                        High Protein
+                    </button>
+<button class="px-5 py-2 rounded-full bg-[#F5F5F5] text-on-surface-variant font-label-md hover:bg-surface-container transition-colors">
+                        Low Carb
+                    </button>
+<button class="px-5 py-2 rounded-full bg-[#F5F5F5] text-on-surface-variant font-label-md hover:bg-surface-container transition-colors">
+                        Quick Meals
+                    </button>
+<button class="px-5 py-2 rounded-full bg-[#F5F5F5] text-on-surface-variant font-label-md hover:bg-surface-container transition-colors">
+                        Indian
+                    </button>
+<button class="material-symbols-outlined p-2 rounded-full bg-[#F5F5F5] text-outline">tune</button>
+</div>
+</div>
+</section>
+<!-- AI Generating Indicator (Subtle) -->
+<div class="hidden flex items-center justify-center gap-3 mb-8 py-4 px-6 rounded-2xl glass-layer max-w-sm mx-auto" id="ai-status">
+<div class="w-2 h-2 rounded-full bg-primary animate-ping"></div>
+<span class="text-label-md text-primary font-medium">AI is crafting new recipes...</span>
+</div>
+<!-- Recipe Grid (Pinterest Style) -->
+<div class="masonry-grid">
+<!-- Card 1 -->
+<article class="masonry-item group bg-white rounded-[24px] overflow-hidden card-shadow border border-[#E2E8F0] hover:scale-[1.02] transition-all duration-300">
+<div class="relative h-64 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A gourmet salmon bowl with vibrant roasted vegetables and fluffy quinoa, captured in a bright, modern kitchen setting. Soft, natural morning light enhances the fresh green colors and textures of the dish. The presentation is professional and clean, reflecting a high-end culinary experience for health-conscious professionals." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOVRmfvExSTMAiCTz8zNIEK9L2Ig6xp_iTyoWfAVCtetAM-GGoxd7QFS4BkQepZ8GOzg0TiuiuWJ-8nNAp2z7GGS5soyGFBWfHXGUX6ZXgBR-3xamMYvzk8j_nk8NwsKe4uCTTHUDDI5VUVS4rv4LTADDv_w77H4glozjNkAX6E7xtg3k3LKVlzStXG1gHBg_4ALmce6CdOFt0W8h8UpmUnxe-AtFFklltWl14m6QOo1k1O_a1Os6VVUoQ8uy956i7-2Y7xw4FsweN"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-label-sm text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">bolt</span> High Protein
+                    </div>
+</div>
+<div class="p-6">
+<h3 class="font-headline-sm text-on-surface mb-2">Honey Glazed Atlantic Salmon</h3>
+<div class="flex items-center gap-4 text-outline mb-6">
+<div class="flex items-center gap-1 text-label-sm">
+<span class="material-symbols-outlined text-[18px]">schedule</span> 20 min
+                        </div>
+<div class="flex items-center gap-1 text-label-sm">
+<span class="material-symbols-outlined text-[18px]">local_fire_department</span> 450 kcal
+                        </div>
+<div class="flex items-center gap-1 text-label-sm">
+<span class="material-symbols-outlined text-[18px]">signal_cellular_alt</span> Easy
+                        </div>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full py-3 bg-primary text-on-primary rounded-xl font-label-md hover:shadow-lg hover:shadow-primary/20 transition-all active:scale-95">Cook Now</button>
+<div class="flex gap-2">
+<button class="flex-1 py-3 bg-[#F5F5F5] text-on-surface-variant rounded-xl font-label-md hover:bg-surface-container transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">bookmark</span> Save
+                            </button>
+<button class="p-3 bg-[#F5F5F5] text-on-surface-variant rounded-xl font-label-md hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 2 (Large) -->
+<article class="masonry-item group bg-white rounded-[24px] overflow-hidden card-shadow border border-[#E2E8F0] hover:scale-[1.02] transition-all duration-300">
+<div class="relative h-96 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A lush, colorful Buddha bowl featuring avocado slices, microgreens, and roasted chickpeas in a ceramic bowl. The lighting is crisp and airy, emphasizing the fresh, organic ingredients. The overall mood is vibrant and energetic, fitting the intelligent and fresh brand personality of FridgeChef AI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpkqSx_ec4-yPN2ooutt5v9jCPebtZIu-X3peRrwlWEnqPetUOUk26fS-4YfsVuAK7HOPeYpI_Mv7qVdQMBw5P-e47D1EzEtSrHKwQi2bmG_z8vENqWRHKRxTYwGy0Dct7p1WzmmlxYA9c99EI6IJvud72JZs0MeSv6cQYpilzzLA9EKHypJt1jS1niebGb-83biMt2i4cFVKt9XnXcH2y-BPq4PHztKfIFBsauQcJoAllsE3tWYOeInsL6Rl_SR0x4U64voyEul7z"/>
+<div class="absolute top-4 left-4 bg-primary text-on-primary px-3 py-1 rounded-full text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span> AI Recommended
+                    </div>
+</div>
+<div class="p-6">
+<h3 class="font-headline-sm text-on-surface mb-2">Avocado &amp; Chickpea Harvest Bowl</h3>
+<p class="text-outline text-label-md mb-4 line-clamp-2">A nutrient-dense bowl packed with fiber and healthy fats, finished with a zesty lemon tahini dressing.</p>
+<div class="flex items-center gap-4 text-outline mb-6">
+<div class="flex items-center gap-1 text-label-sm">
+<span class="material-symbols-outlined text-[18px]">schedule</span> 15 min
+                        </div>
+<div class="flex items-center gap-1 text-label-sm">
+<span class="material-symbols-outlined text-[18px]">local_fire_department</span> 380 kcal
+                        </div>
+</div>
+<button class="w-full py-4 bg-gradient-to-r from-primary to-[#fd761a] text-on-primary rounded-xl font-label-md hover:opacity-90 transition-all active:scale-95 shadow-md">Cook Now</button>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="masonry-item group bg-white rounded-[24px] overflow-hidden card-shadow border border-[#E2E8F0] hover:scale-[1.02] transition-all duration-300">
+<div class="relative h-56 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A delicious plate of stir-fried noodles with ginger, garlic, and colorful bell peppers. The steam is visible, suggesting the meal was just cooked. The lighting is warm and inviting, perfect for a quick and comforting dinner. The style is modern and minimalist, highlighting the food's texture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0o1bwdACCsDntk6dtfmYCb8rwuIhGmeiCIWPU1isfBo4jYvANVgNxMyODr0zZF_RBtGW8WhALRdtX387RH-w7ISteXMLo727n4wNjEPdK0_g_iy92C-LFC7_B_3ivurKi-VYKuMSPBPZigZ41H1EymU2ZFRoZW88FerFIXPh9keo-9kvjIXImml-TdEm9PY6QeAHs_luGDWMB3NiP1pwaUuNAUtIBrgFOOixFMH1_UITOb-zhnp5gDwxfJEYlZuoWN1ouGYzbruUb"/>
+<div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-label-sm text-secondary-container flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">timer</span> Quick
+                    </div>
+</div>
+<div class="p-6">
+<h3 class="font-headline-sm text-on-surface mb-2">Ginger Garlic Ramen Stir-fry</h3>
+<div class="flex items-center gap-4 text-outline mb-6">
+<div class="flex items-center gap-1 text-label-sm">
+<span class="material-symbols-outlined text-[18px]">schedule</span> 10 min
+                        </div>
+<div class="flex items-center gap-1 text-label-sm">
+<span class="material-symbols-outlined text-[18px]">local_fire_department</span> 520 kcal
+                        </div>
+</div>
+<button class="w-full py-3 bg-primary text-on-primary rounded-xl font-label-md active:scale-95 transition-all">Cook Now</button>
+</div>
+</article>
+<!-- Card 4 -->
+<article class="masonry-item group bg-white rounded-[24px] overflow-hidden card-shadow border border-[#E2E8F0] hover:scale-[1.02] transition-all duration-300">
+<div class="relative h-80 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A warm, aromatic Indian Butter Chicken curry served with buttery naan and fragrant basmati rice. The lighting is rich and moody, highlighting the deep oranges and golds of the spices. The setting is intimate and homey yet feels like a premium restaurant experience, reflecting the brand's culinary superpowers." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQpyO-gzDwj_ctDG6hXxfN6X2zVjOMbRxsvFP084Oq4qGC2QZqr5pfeqsm5_hz4z1OzQF2V2jxedl8WER-spXndDkWULnK4-hYiAPRSgoGtxxfsiY2tWzA40EMC0E895g4S-pwKdVtA-ZzqcjX-RmC5FyCtXC1gFrt1wpF5eeSKWM55u8PGMsgSfpEiMy8fLNXGMPkq5kZeqNonsOlGQzmRvzqlTCrgc1SIHOAjueyOdoiC5PbvyPzU6gOUeFU3k5Tl50vqFU8OvgM"/>
+</div>
+<div class="p-6">
+<h3 class="font-headline-sm text-on-surface mb-2">Classic Indian Butter Chicken</h3>
+<div class="flex items-center gap-4 text-outline mb-6">
+<div class="flex items-center gap-1 text-label-sm">
+<span class="material-symbols-outlined text-[18px]">schedule</span> 45 min
+                        </div>
+<div class="flex items-center gap-1 text-label-sm">
+<span class="material-symbols-outlined text-[18px]">signal_cellular_alt</span> Medium
+                        </div>
+</div>
+<button class="w-full py-3 bg-primary text-on-primary rounded-xl font-label-md active:scale-95 transition-all">Cook Now</button>
+</div>
+</article>
+<!-- Card 5 -->
+<article class="masonry-item group bg-white rounded-[24px] overflow-hidden card-shadow border border-[#E2E8F0] hover:scale-[1.02] transition-all duration-300">
+<div class="relative h-64 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A refreshing Mediterranean salad with heirloom tomatoes, cucumber, feta cheese, and olives. The scene is bright and airy, with soft shadows and a pristine white marble background. The color palette is fresh greens and vibrant reds, evoking a sense of health and vitality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBraPYLKdtSyiFjWoD939HWCM8zsq3_1y7-8XPIAunK8pf7WLvKPtgqJDbeS-dSLNkhVlX7-eNxRQyM_jze88XOhaa8R16Ow7j7z5S6plGZQS_3fFOjw_2_p_6WJQogMrTo5eXbr15CJqsjK2WB4TyTiGbsUNX_0KGZQ3wfQbv2G-YIimbv9_VV_xgAi-HK-CyyX1DD_h8mM7qaXCSqAsfI4GrNExpdMIGwPUZXKLA76kiSZW7r61TwTNVris8KEcPzBfT2saMLxDLU"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-label-sm text-primary">
+                        Low Carb
+                    </div>
+</div>
+<div class="p-6">
+<h3 class="font-headline-sm text-on-surface mb-2">Heirloom Tomato &amp; Feta Salad</h3>
+<div class="flex items-center gap-4 text-outline mb-6">
+<div class="flex items-center gap-1 text-label-sm">
+<span class="material-symbols-outlined text-[18px]">schedule</span> 10 min
+                        </div>
+<div class="flex items-center gap-1 text-label-sm">
+<span class="material-symbols-outlined text-[18px]">local_fire_department</span> 210 kcal
+                        </div>
+</div>
+<button class="w-full py-3 bg-primary text-on-primary rounded-xl font-label-md active:scale-95 transition-all">Cook Now</button>
+</div>
+</article>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-xl z-50 rounded-t-xl border-t border-surface-variant/30 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] px-4 py-2 pb-safe flex justify-around items-center">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container/20 text-on-primary-container rounded-full px-4 py-1 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-label-sm text-label-sm">Recipes</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">document_scanner</span>
+<span class="font-label-sm text-label-sm">Scanner</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-sm text-label-sm">Planner</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<!-- Floating Action Button (Contextual for Recipes) -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary text-on-primary rounded-2xl shadow-xl shadow-primary/30 flex items-center justify-center z-40 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<script>
+        // Simple micro-interaction for the search bar
+        const searchInput = document.querySelector('input[type="text"]');
+        const aiStatus = document.getElementById('ai-status');
+
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                aiStatus.classList.remove('hidden');
+                // Mock search transition
+                setTimeout(() => {
+                    aiStatus.classList.add('hidden');
+                }, 3000);
+            }
+        });
+
+        // Filter button toggles
+        const filterBtns = document.querySelectorAll('button.rounded-full');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-primary-container/20', 'text-on-primary-container', 'border-primary/10');
+                    b.classList.add('bg-[#F5F5F5]', 'text-on-surface-variant');
+                });
+                btn.classList.remove('bg-[#F5F5F5]', 'text-on-surface-variant');
+                btn.classList.add('bg-primary-container/20', 'text-on-primary-container', 'border-primary/10');
+            });
+        });
+    </script>
+</body></html>

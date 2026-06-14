@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>FridgeChef AI - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Geist:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 20px 25px -5px rgba(0,0,0,0.03);
+        }
+        .ai-gradient-bg {
+            background: linear-gradient(135deg, #22c55e 0%, #fd761a 100%);
+        }
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        body {
+            background-color: #f8f9ff;
+            color: #0b1c30;
+            overflow-x: hidden;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d3e4fe;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#213145",
+                    "on-secondary-container": "#5c2400",
+                    "inverse-primary": "#4ae176",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed-dim": "#4ae176",
+                    "on-surface-variant": "#3d4a3d",
+                    "on-primary-fixed-variant": "#005321",
+                    "secondary-fixed-dim": "#ffb690",
+                    "surface-container-low": "#eff4ff",
+                    "surface-variant": "#d3e4fe",
+                    "tertiary-fixed": "#dae2fd",
+                    "surface-container-high": "#dce9ff",
+                    "surface-tint": "#006e2f",
+                    "surface-dim": "#cbdbf5",
+                    "inverse-on-surface": "#eaf1ff",
+                    "outline": "#6d7b6c",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#783200",
+                    "on-primary-fixed": "#002109",
+                    "primary": "#006e2f",
+                    "background": "#f8f9ff",
+                    "on-error": "#ffffff",
+                    "tertiary": "#565e74",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#22c55e",
+                    "on-tertiary-container": "#383f54",
+                    "on-background": "#0b1c30",
+                    "on-primary-container": "#004b1e",
+                    "secondary": "#9d4300",
+                    "on-tertiary-fixed": "#131b2e",
+                    "surface": "#f8f9ff",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed": "#341100",
+                    "secondary-container": "#fd761a",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "surface-bright": "#f8f9ff",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed": "#ffdbca",
+                    "primary-fixed": "#6bff8f",
+                    "outline-variant": "#bccbb9",
+                    "surface-container": "#e5eeff",
+                    "tertiary-container": "#a4abc4"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1200px",
+                    "margin-mobile": "16px",
+                    "unit": "8px",
+                    "stack-lg": "32px",
+                    "gutter": "24px",
+                    "stack-sm": "8px",
+                    "stack-md": "16px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "label-sm": ["Geist"],
+                    "headline-sm": ["Inter"],
+                    "label-md": ["Geist"],
+                    "body-md": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-background">
+<!-- TopAppBar -->
+<header class="bg-surface/80 backdrop-blur-xl w-full sticky top-0 z-40 border-b border-surface-variant/30 shadow-sm">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0VEeDskzelTcIyr3kA5KSNm04qSzXF1o_0Jr203KYYJW4SwDycwXf0_PO6XkguAn_l96Kg-4ZRRBEHZsEbn4xXL_8CgGkcyQQ4BKzxGdwQ2qp3jMKmUI5G_eKuULgiNux_6SVE5f0jxadEVXd4q0FKUvOgXRcNinfKcRjwIbHr3pFs23ZU1FJmgLBb0ucfCje0b3BHZF-OKH7HUThxqsTmXj2Llf6ZhpJhW3R5wa-SRyhButX2DLWL9Ijo-yQ3KMLPyzydvHJ2VaL"/>
+</div>
+<h1 class="font-display-lg text-headline-sm-mobile md:text-headline-sm text-primary tracking-tight">FridgeChef AI</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary p-2 active:scale-95 duration-200" data-icon="notifications">notifications</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg pb-32">
+<!-- Welcome Section -->
+<section class="mb-stack-lg">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-1">Good Morning, Puspita 👋</h2>
+<p class="text-on-surface-variant font-body-md">Ready to see what's cooking in your fridge today?</p>
+</section>
+<!-- Bento Grid: Stats & Health -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-stack-lg">
+<!-- Daily Calories Progress (Large Card) -->
+<div class="md:col-span-8 glass-card rounded-24 p-6 flex flex-col justify-between overflow-hidden relative group">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="font-label-md text-on-surface-variant mb-1">Calories Remaining</p>
+<p class="font-headline-md text-headline-md text-primary">1,240 <span class="text-body-md font-normal text-on-surface-variant">/ 2,400 kcal</span></p>
+</div>
+<div class="p-3 bg-primary-container/10 rounded-xl text-primary">
+<span class="material-symbols-outlined" data-icon="local_fire_department">local_fire_department</span>
+</div>
+</div>
+<div class="mt-8">
+<div class="h-4 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full shimmer" style="width: 52%"></div>
+</div>
+<div class="flex justify-between mt-2 font-label-sm text-on-surface-variant">
+<span>Breakfast: 450 kcal</span>
+<span>Lunch: 710 kcal</span>
+</div>
+</div>
+<!-- Abstract Decorative Element -->
+<div class="absolute -right-12 -top-12 w-48 h-48 bg-primary-container/5 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700"></div>
+</div>
+<!-- Protein Goal (Small Card) -->
+<div class="md:col-span-4 glass-card rounded-24 p-6 flex flex-col items-center justify-center text-center">
+<div class="relative w-32 h-32 flex items-center justify-center mb-4">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-surface-container-high" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-secondary-container rounded-full" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="109.3" stroke-width="8"></circle>
+</svg>
+<div class="absolute flex flex-col">
+<span class="font-headline-sm text-secondary">70%</span>
+<span class="font-label-sm text-on-surface-variant uppercase">Goal</span>
+</div>
+</div>
+<h3 class="font-label-md text-on-surface">Protein Goal</h3>
+<p class="text-body-md text-on-surface-variant">105g / 150g</p>
+</div>
+<!-- Budget & Water Intake (Medium Cards) -->
+<div class="md:col-span-6 glass-card rounded-24 p-6">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-tertiary-fixed rounded-lg text-tertiary">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<p class="font-label-md text-on-surface">Weekly Budget</p>
+</div>
+<p class="font-headline-sm text-on-surface">$142.50 <span class="text-body-md text-on-surface-variant font-normal">left</span></p>
+</div>
+<div class="flex gap-2">
+<div class="h-2 flex-1 bg-primary-container rounded-full"></div>
+<div class="h-2 flex-1 bg-primary-container rounded-full"></div>
+<div class="h-2 flex-1 bg-primary-container rounded-full"></div>
+<div class="h-2 flex-1 bg-surface-container-high rounded-full"></div>
+<div class="h-2 flex-1 bg-surface-container-high rounded-full"></div>
+</div>
+<p class="mt-4 font-label-sm text-on-surface-variant">Estimated grocery spend: $220.00</p>
+</div>
+<div class="md:col-span-6 glass-card rounded-24 p-6">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-surface-container-low rounded-lg text-primary">
+<span class="material-symbols-outlined" data-icon="water_drop">water_drop</span>
+</div>
+<p class="font-label-md text-on-surface">Water Intake</p>
+</div>
+<button class="text-primary font-label-md active:scale-95">+ Add Glass</button>
+</div>
+<div class="flex justify-between items-end h-16 gap-1">
+<div class="w-full bg-primary/40 rounded-t-sm h-[40%]"></div>
+<div class="w-full bg-primary/40 rounded-t-sm h-[60%]"></div>
+<div class="w-full bg-primary/40 rounded-t-sm h-[30%]"></div>
+<div class="w-full bg-primary/40 rounded-t-sm h-[80%]"></div>
+<div class="w-full bg-primary/40 rounded-t-sm h-[50%]"></div>
+<div class="w-full bg-primary rounded-t-sm h-[95%]"></div>
+<div class="w-full bg-primary-container rounded-t-sm h-[20%] opacity-30"></div>
+</div>
+<p class="mt-4 font-label-sm text-on-surface-variant text-center">6 of 8 glasses today</p>
+</div>
+</section>
+<!-- Quick AI Actions -->
+<section class="mb-stack-lg">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-stack-md">Quick Actions</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<button class="flex flex-col items-center justify-center p-6 glass-card rounded-24 hover:bg-surface-container-low transition-colors duration-200 group">
+<div class="p-4 bg-primary-container/10 rounded-full text-primary mb-3 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]" data-icon="document_scanner">document_scanner</span>
+</div>
+<span class="font-label-md text-on-surface">Scan Fridge</span>
+</button>
+<button class="flex flex-col items-center justify-center p-6 ai-gradient-bg rounded-24 shadow-lg hover:opacity-90 transition-all duration-200 group">
+<div class="p-4 bg-white/20 rounded-full text-white mb-3 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<span class="font-label-md text-white">Gen Recipes</span>
+</button>
+<button class="flex flex-col items-center justify-center p-6 glass-card rounded-24 hover:bg-surface-container-low transition-colors duration-200 group">
+<div class="p-4 bg-tertiary-fixed rounded-full text-tertiary mb-3 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]" data-icon="calendar_today">calendar_today</span>
+</div>
+<span class="font-label-md text-on-surface">Meal Planner</span>
+</button>
+<button class="flex flex-col items-center justify-center p-6 glass-card rounded-24 hover:bg-surface-container-low transition-colors duration-200 group">
+<div class="p-4 bg-secondary-fixed rounded-full text-secondary mb-3 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]" data-icon="shopping_cart">shopping_cart</span>
+</div>
+<span class="font-label-md text-on-surface">Order Groceries</span>
+</button>
+</div>
+</section>
+<!-- Today's Suggested Meals -->
+<section class="mb-stack-lg">
+<div class="flex justify-between items-center mb-stack-md">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Today's Meals</h3>
+<button class="text-primary font-label-md">View Menu</button>
+</div>
+<div class="flex gap-gutter overflow-x-auto pb-4 no-scrollbar custom-scrollbar">
+<!-- Meal Card 1 -->
+<div class="min-w-[280px] md:min-w-[340px] glass-card rounded-24 overflow-hidden group">
+<div class="h-48 relative">
+<img class="w-full h-full object-cover" data-alt="A gourmet, fresh salmon poke bowl with vibrant green edamame, sliced avocado, shredded carrots, and black sesame seeds. The lighting is bright and natural, suggesting a high-end health-focused kitchen setting. The colors are crisp and saturated, emphasizing freshness and nutritional quality in a professional culinary photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5LeBO34kb-Ayj33_gqD-hkcJeNdUbwoo6miJ7fl4Y9-TSBMB2JuaNuKI3qeSSaWHsjyCjgSRd5SZCX5HvW2WWG0f1O5WIs0QdnlaAn77xbShbTLgUZkPoCiIWLGXJ8X0dmbcLPLUXaCXqVH6s4Q7cEW6S_up3TCliphZqFE-dUwWvww0p_IpaQmhEpQct38-haKhlg4u0yUJLLY_4yLJC8AhHVHOaVyyw5XOfxZGr6Au7CKBTtwNRUIzYFedBX1qUnQ6Oavyb1jm-"/>
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-primary">Breakfast</div>
+</div>
+<div class="p-5">
+<h4 class="font-headline-sm text-on-surface mb-2">Avocado &amp; Smoked Salmon Bowl</h4>
+<div class="flex gap-3 mb-4">
+<span class="font-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="schedule">schedule</span> 15m
+                            </span>
+<span class="font-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="local_fire_department">local_fire_department</span> 450 kcal
+                            </span>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-primary-container/10 text-on-primary-container font-label-sm rounded-full">In-Stock</span>
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant font-label-sm rounded-full">Keto</span>
+</div>
+</div>
+</div>
+<!-- Meal Card 2 -->
+<div class="min-w-[280px] md:min-w-[340px] glass-card rounded-24 overflow-hidden group">
+<div class="h-48 relative">
+<img class="w-full h-full object-cover" data-alt="A close-up shot of a Mediterranean quinoa salad with roasted vegetables, cherry tomatoes, and feta cheese crumbles. The scene is lit by soft, diffused daylight creating a clean and airy premium food magazine look. The palette features earthy tones, bright reds, and lush greens, evoking a sense of healthy, intelligent meal planning for professionals." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3L49aMh4iNLKMUEOoQ5WPlsn7PQ6GSxqi8uWkRIXCsX_7cYyMImucMbS34rIPD4-YmB9Z_UeFIizQq78R8RjSn1y9cza0biEIzh5RCVrxe4PMpYQBiQ-b4iJStj_vrpYFkEGdcRLA-6CnYWHxSvpBIYaBmxtGNwA0Tl-aytDp-gzOtESdCJY9gTsVeAGER6nz1GgaYps3qnJ-C_m788Ymd_1n_STepLR2yGQKEkQtZkzjGrpR0M69L8vL8KssThMpTmd6jEyHzWJ6"/>
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-primary">Lunch</div>
+</div>
+<div class="p-5">
+<h4 class="font-headline-sm text-on-surface mb-2">Roasted Veggie Quinoa Salad</h4>
+<div class="flex gap-3 mb-4">
+<span class="font-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="schedule">schedule</span> 25m
+                            </span>
+<span class="font-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="local_fire_department">local_fire_department</span> 710 kcal
+                            </span>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-secondary-container/10 text-on-secondary-container font-label-sm rounded-full">Missing 2 items</span>
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant font-label-sm rounded-full">Vegan</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-t border-surface-variant/30 px-4 py-2 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.05)] md:hidden">
+<div class="flex justify-around items-center">
+<button class="flex flex-col items-center justify-center bg-primary-container/20 text-on-primary-container rounded-full px-4 py-1 active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="font-label-sm text-label-sm">Recipes</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="document_scanner">document_scanner</span>
+<span class="font-label-sm text-label-sm">Scanner</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-sm text-label-sm">Planner</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</button>
+</div>
+</nav>
+<!-- Desktop Navigation Shell Simulation -->
+<aside class="hidden md:flex flex-col fixed left-0 top-20 h-[calc(100vh-5rem)] w-64 bg-surface border-r border-surface-variant/30 p-4">
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary-container/10 text-primary font-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span> Home
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container transition-colors font-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span> Recipes
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container transition-colors font-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="document_scanner">document_scanner</span> Scanner
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container transition-colors font-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span> Planner
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container transition-colors font-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_basket">shopping_basket</span> Grocery List
+            </a>
+</nav>
+<div class="mt-auto p-4 glass-card rounded-24 bg-primary-container/5">
+<p class="font-label-sm text-primary mb-2">PRO PLAN</p>
+<p class="text-body-md text-on-surface mb-3">Get unlimited AI recipes &amp; detailed health tracking.</p>
+<button class="w-full py-2 bg-primary text-white font-label-md rounded-xl active:scale-95 duration-200">Upgrade</button>
+</div>
+</aside>
+<script>
+        // Micro-interactions for glassmorphism hover effect
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Simple hydration tracker state simulation
+        let glasses = 6;
+        const addGlassBtn = document.querySelector('button:contains("+ Add Glass")');
+        // Note: Using a helper or query selector for the specific text as requested
+        // Placeholder for real logic since :contains is not standard vanilla JS
+        document.body.addEventListener('click', (e) => {
+            if (e.target.innerText === '+ Add Glass') {
+                const waterText = e.target.closest('.glass-card').querySelector('p.text-center');
+                if(glasses < 8) {
+                    glasses++;
+                    waterText.innerText = `${glasses} of 8 glasses today`;
+                    // Visual update for bars could go here
+                }
+            }
+        });
+    </script>
+</body></html>

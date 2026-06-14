@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scanner - FridgeChef AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Geist:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#213145",
+                        "on-secondary-container": "#5c2400",
+                        "inverse-primary": "#4ae176",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed-dim": "#4ae176",
+                        "on-surface-variant": "#3d4a3d",
+                        "on-primary-fixed-variant": "#005321",
+                        "secondary-fixed-dim": "#ffb690",
+                        "surface-container-low": "#eff4ff",
+                        "surface-variant": "#d3e4fe",
+                        "tertiary-fixed": "#dae2fd",
+                        "surface-container-high": "#dce9ff",
+                        "surface-tint": "#006e2f",
+                        "surface-dim": "#cbdbf5",
+                        "inverse-on-surface": "#eaf1ff",
+                        "outline": "#6d7b6c",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#783200",
+                        "on-primary-fixed": "#002109",
+                        "primary": "#006e2f",
+                        "background": "#f8f9ff",
+                        "on-error": "#ffffff",
+                        "tertiary": "#565e74",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#22c55e",
+                        "on-tertiary-container": "#383f54",
+                        "on-background": "#0b1c30",
+                        "on-primary-container": "#004b1e",
+                        "secondary": "#9d4300",
+                        "on-tertiary-fixed": "#131b2e",
+                        "surface": "#f8f9ff",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed": "#341100",
+                        "secondary-container": "#fd761a",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "surface-bright": "#f8f9ff",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#ffdbca",
+                        "primary-fixed": "#6bff8f",
+                        "outline-variant": "#bccbb9",
+                        "surface-container": "#e5eeff",
+                        "tertiary-container": "#a4abc4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1200px",
+                        "margin-mobile": "16px",
+                        "unit": "8px",
+                        "stack-lg": "32px",
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "label-sm": ["Geist"],
+                        "headline-sm": ["Inter"],
+                        "label-md": ["Geist"],
+                        "body-md": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600"}],
+                        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+        }
+        .scanner-shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .scan-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #22c55e, transparent);
+            position: absolute;
+            width: 100%;
+            top: 0;
+            animation: scan 4s infinite linear;
+            z-index: 10;
+        }
+        @keyframes scan {
+            0% { top: 0; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen font-body-md">
+<!-- Top App Bar -->
+<header class="w-full sticky top-0 z-40 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl border-b border-surface-variant/30 dark:border-outline-variant/20 shadow-sm">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full max-w-container-max mx-auto">
+<h1 class="font-display-lg text-headline-sm-mobile md:text-headline-sm text-primary dark:text-inverse-primary tracking-tight">FridgeChef AI</h1>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-200">notifications</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a smiling young adult with warm, natural lighting in a contemporary setting. The person has a friendly expression, soft skin textures, and clear eyes, reflecting a clean and modern Silicon Valley aesthetic with a shallow depth of field focusing on the face." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAwGu-eubFD6_uFLJZQR1lmujAdA6bG8CcS2_zJbKuwB7IG0ENtFaAEYj11iQqb24tDoG_CGPgNA_deodIuU7LVZGlhtMoPfF5aT8zERuFjJAXU2f_01BTwF1-fsnsGN-FoGPDYy27JzaUx3MAT2ny8DfKM1meYfGso_oFCdTFU_kInlEqfEmOcwluzVBMU4KACmoM41hXYW8bFyIA4obE4sPydYgozTCYHQ0YbBe0m_qHt1XVBy1rsxFJyo6EK5DQUnzMRexNIzcV"/>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg pb-32">
+<!-- Hero Section -->
+<div class="mb-stack-lg">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-stack-sm">Scan Your Fridge</h2>
+<p class="text-on-surface-variant font-body-md">Let AI analyze your ingredients and suggest the perfect meal.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Scanner Area -->
+<div class="lg:col-span-7 space-y-gutter">
+<!-- Dropzone Area -->
+<div class="glass-card rounded-xl aspect-[4/3] md:aspect-video relative overflow-hidden flex flex-col items-center justify-center border-2 border-dashed border-primary/30 group cursor-pointer hover:border-primary transition-all duration-300" id="dropzone">
+<div class="scan-line hidden group-[.scanning]:block"></div>
+<div class="absolute inset-0 z-0 opacity-20 group-[.scanning]:opacity-100 transition-opacity duration-700">
+
+</div>
+<div class="relative z-10 flex flex-col items-center text-center p-stack-md group-[.scanning]:hidden">
+<div class="w-16 h-16 rounded-full bg-primary-container/20 flex items-center justify-center mb-4 text-primary">
+<span class="material-symbols-outlined text-4xl">document_scanner</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Upload or Drag Photo</h3>
+<p class="text-on-surface-variant text-body-md max-w-xs">Snap a clear picture of your open fridge or pantry to begin.</p>
+<button class="mt-6 px-8 py-3 bg-primary text-on-primary font-label-md rounded-full hover:shadow-lg transition-shadow active:scale-95 duration-200 flex items-center gap-2">
+<span class="material-symbols-outlined">add_a_photo</span>
+                            Start Scanning
+                        </button>
+</div>
+<!-- Scanning State Content (Hidden by default) -->
+<div class="hidden group-[.scanning]:flex relative z-10 flex-col items-center text-center p-stack-md">
+<div class="font-display-lg text-primary animate-pulse">Analyzing...</div>
+<p class="text-primary-fixed-dim mt-2 font-label-md uppercase tracking-widest">Neural Vision Active</p>
+</div>
+</div>
+<!-- Analysis Summary -->
+<div class="grid grid-cols-2 gap-stack-md">
+<div class="glass-card p-stack-md rounded-xl flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">temp_preferences_eco</span>
+</div>
+<div>
+<div class="font-label-sm text-on-surface-variant">Freshness Score</div>
+<div class="font-headline-sm text-primary">84%</div>
+</div>
+</div>
+<div class="glass-card p-stack-md rounded-xl flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+</div>
+<div>
+<div class="font-label-sm text-on-surface-variant">AI Confidence</div>
+<div class="font-headline-sm text-secondary">92.4%</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Detected Items & Recs -->
+<div class="lg:col-span-5 space-y-gutter">
+<!-- Detected Ingredients -->
+<section class="glass-card p-stack-md rounded-xl">
+<div class="flex justify-between items-center mb-stack-md">
+<h3 class="font-headline-sm text-on-surface">Detected Items</h3>
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-label-sm text-on-surface-variant">6 Items Found</span>
+</div>
+<div class="space-y-2">
+<!-- Ingredient Row -->
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">egg</span>
+</div>
+<div>
+<div class="font-label-md text-on-surface">Eggs</div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-wider">Protein</div>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<div class="text-label-sm font-bold text-primary">98% Match</div>
+<div class="w-16 h-1 bg-surface-container rounded-full overflow-hidden mt-1">
+<div class="h-full bg-primary w-[98%]"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">nutrition</span>
+</div>
+<div>
+<div class="font-label-md text-on-surface">Tomato</div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-wider">Vegetable</div>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<div class="text-label-sm font-bold text-primary">94% Match</div>
+<div class="w-16 h-1 bg-surface-container rounded-full overflow-hidden mt-1">
+<div class="h-full bg-primary w-[94%]"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">water_drop</span>
+</div>
+<div>
+<div class="font-label-md text-on-surface">Milk</div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-wider">Dairy</div>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<div class="text-label-sm font-bold text-primary">91% Match</div>
+<div class="w-16 h-1 bg-surface-container rounded-full overflow-hidden mt-1">
+<div class="h-full bg-primary w-[91%]"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">grid_view</span>
+</div>
+<div>
+<div class="font-label-md text-on-surface">Paneer</div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-wider">Cheese/Dairy</div>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<div class="text-label-sm font-bold text-primary">87% Match</div>
+<div class="w-16 h-1 bg-surface-container rounded-full overflow-hidden mt-1">
+<div class="h-full bg-primary w-[87%]"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">eco</span>
+</div>
+<div>
+<div class="font-label-md text-on-surface">Spinach</div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-wider">Leafy Green</div>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<div class="text-label-sm font-bold text-primary">82% Match</div>
+<div class="w-16 h-1 bg-surface-container rounded-full overflow-hidden mt-1">
+<div class="h-full bg-primary w-[82%]"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">circle</span>
+</div>
+<div>
+<div class="font-label-md text-on-surface">Onion</div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-wider">Alliums</div>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<div class="text-label-sm font-bold text-primary">79% Match</div>
+<div class="w-16 h-1 bg-surface-container rounded-full overflow-hidden mt-1">
+<div class="h-full bg-primary w-[79%]"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Recommendation Panel -->
+<section class="space-y-stack-md">
+<h3 class="font-headline-sm text-on-surface">Suggested Recipes</h3>
+<div class="space-y-4">
+<!-- Recipe Card 1 -->
+<div class="glass-card group p-3 rounded-xl flex gap-4 cursor-pointer hover:-translate-y-1 transition-transform border border-transparent hover:border-primary/20">
+<div class="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Healthy Breakfast Bowl" class="w-full h-full object-cover" data-alt="A gourmet breakfast bowl featuring soft-boiled eggs, fresh wilted spinach, sautéed cherry tomatoes, and cubed paneer. The dish is plated on a rustic ceramic bowl with vibrant green and red tones, illuminated by soft morning sunlight hitting a minimalist kitchen countertop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIfGYl_9RNuV4jgr1iBwIrkIPQ9htmAgfTo2XaQ_2aOx9yHb7AxfaDElPhJJjfFPLYqpiXV8Z7uVCTK0pl4RzB1R4oCd_uOz3xJXvhSSgfHlvlUQeUwmn2e9eU96itG3RrVx8LzwIqCXRQ-_WLIrcynMzZS3DPkZlLI610oBco7ZgD0CwOLTguq6rRq9h-yMxneckYnKAFzySb9JyUxUv4lVUd0sM5HhbcBAytegeoMQiWmi9XDLv__lqk8uAi_G-Xa4Sx8XEAi1y-"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<span class="text-[10px] font-bold text-primary uppercase tracking-tighter bg-primary/10 px-2 py-0.5 rounded">Quick Match</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">bookmark</span>
+</div>
+<h4 class="font-label-md text-on-surface truncate">Paneer &amp; Spinach Scramble</h4>
+<p class="text-label-sm text-on-surface-variant mt-1 line-clamp-1">Uses: Eggs, Spinach, Paneer, Onion</p>
+<div class="flex items-center gap-3 mt-2">
+<div class="flex items-center gap-1 text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-xs">schedule</span> 12m
+                                    </div>
+<div class="flex items-center gap-1 text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-xs">bolt</span> Easy
+                                    </div>
+</div>
+</div>
+</div>
+<!-- Recipe Card 2 -->
+<div class="glass-card group p-3 rounded-xl flex gap-4 cursor-pointer hover:-translate-y-1 transition-transform border border-transparent hover:border-primary/20">
+<div class="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Tomato Salad" class="w-full h-full object-cover" data-alt="A fresh, vibrant Mediterranean salad with sliced heirloom tomatoes, diced red onions, and chunks of paneer cheese. Garnished with fresh spinach leaves and a light drizzle of olive oil. The scene is bright and airy with high-key lighting and a fresh, clean culinary aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhZps_lpRwhJvA7xfMqHmPLAv-DDHTr2ZwJXy1SElcOehc6V2C0M4z8LpdLzAVsUE32TmLiLyfHR-NMukazHAHICwLrwWH76aB_irJci6LTfyHxtM7DV-fjBfNmDiBw_xBYuNhSWKChl4ETCCtH4V-EKkMe-6kKvbOSTuuVaPaxRLI78yEbEi-K9tGz8tR4WM-uWAGT5qU-gn2q81Se6AZSbcgOTXHrr36u_2jAYEZNZ139q4pkSMCVfEB6ao3m_1n4oh7OgrNbNsq"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<span class="text-[10px] font-bold text-secondary uppercase tracking-tighter bg-secondary/10 px-2 py-0.5 rounded">Healthy</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">bookmark</span>
+</div>
+<h4 class="font-label-md text-on-surface truncate">Tomato &amp; Paneer Garden Salad</h4>
+<p class="text-label-sm text-on-surface-variant mt-1 line-clamp-1">Uses: Tomato, Paneer, Spinach, Onion</p>
+<div class="flex items-center gap-3 mt-2">
+<div class="flex items-center gap-1 text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-xs">schedule</span> 8m
+                                    </div>
+<div class="flex items-center gap-1 text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-xs">bolt</span> Beginner
+                                    </div>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full py-4 bg-primary-container text-on-primary-container font-label-md rounded-xl shadow-md hover:shadow-lg transition-all active:scale-95 duration-200 flex items-center justify-center gap-2 mt-4">
+<span class="material-symbols-outlined">auto_awesome</span>
+                        Generate More Ideas
+                    </button>
+</section>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-2 pb-safe bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-xl border-t border-surface-variant/30 dark:border-outline-variant/20 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] z-50 rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:bg-surface-container-high dark:hover:bg-surface-container-low transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:bg-surface-container-high dark:hover:bg-surface-container-low transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-label-sm text-label-sm">Recipes</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container/20 dark:bg-primary-container text-on-primary-container rounded-full px-4 py-1 transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">document_scanner</span>
+<span class="font-label-sm text-label-sm">Scanner</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:bg-surface-container-high dark:hover:bg-surface-container-low transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-sm text-label-sm">Planner</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:bg-surface-container-high dark:hover:bg-surface-container-low transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        const dropzone = document.getElementById('dropzone');
+        
+        dropzone.addEventListener('click', () => {
+            if (dropzone.classList.contains('scanning')) return;
+            
+            dropzone.classList.add('scanning');
+            
+            // Artificial delay to simulate AI processing
+            setTimeout(() => {
+                dropzone.classList.remove('scanning');
+                // Trigger a success notification or state change here in a real app
+                console.log('Scan complete');
+            }, 4000);
+        });
+
+        // Simple drag and drop visual feedback
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-primary');
+            dropzone.classList.add('bg-primary/5');
+        });
+
+        dropzone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-primary');
+            dropzone.classList.remove('bg-primary/5');
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-primary');
+            dropzone.classList.remove('bg-primary/5');
+            dropzone.classList.add('scanning');
+            
+            setTimeout(() => {
+                dropzone.classList.remove('scanning');
+            }, 4000);
+        });
+    </script>
+</body></html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FridgeChef AI - Your AI Kitchen Companion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Geist:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#213145",
+                    "on-secondary-container": "#5c2400",
+                    "inverse-primary": "#4ae176",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed-dim": "#4ae176",
+                    "on-surface-variant": "#3d4a3d",
+                    "on-primary-fixed-variant": "#005321",
+                    "secondary-fixed-dim": "#ffb690",
+                    "surface-container-low": "#eff4ff",
+                    "surface-variant": "#d3e4fe",
+                    "tertiary-fixed": "#dae2fd",
+                    "surface-container-high": "#dce9ff",
+                    "surface-tint": "#006e2f",
+                    "surface-dim": "#cbdbf5",
+                    "inverse-on-surface": "#eaf1ff",
+                    "outline": "#6d7b6c",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#783200",
+                    "on-primary-fixed": "#002109",
+                    "primary": "#006e2f",
+                    "background": "#f8f9ff",
+                    "on-error": "#ffffff",
+                    "tertiary": "#565e74",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#22c55e",
+                    "on-tertiary-container": "#383f54",
+                    "on-background": "#0b1c30",
+                    "on-primary-container": "#004b1e",
+                    "secondary": "#9d4300",
+                    "on-tertiary-fixed": "#131b2e",
+                    "surface": "#f8f9ff",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed": "#341100",
+                    "secondary-container": "#fd761a",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "surface-bright": "#f8f9ff",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed": "#ffdbca",
+                    "primary-fixed": "#6bff8f",
+                    "outline-variant": "#bccbb9",
+                    "surface-container": "#e5eeff",
+                    "tertiary-container": "#a4abc4"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1200px",
+                    "margin-mobile": "16px",
+                    "unit": "8px",
+                    "stack-lg": "32px",
+                    "gutter": "24px",
+                    "stack-sm": "8px",
+                    "stack-md": "16px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "label-sm": ["Geist"],
+                    "headline-sm": ["Inter"],
+                    "label-md": ["Geist"],
+                    "body-md": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                    "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+                    "headline-sm": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                    "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                    "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                    "display-lg-mobile": ["36px", { "lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f8f9ff;
+            color: #0b1c30;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02), 0 20px 40px rgba(0,0,0,0.03);
+        }
+        .ai-gradient-text {
+            background: linear-gradient(135deg, #006e2f 0%, #fd761a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .sticky-nav {
+            backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.8);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md">
+<!-- Top Navigation -->
+<header class="w-full sticky top-0 z-40 bg-surface/80 backdrop-blur-xl border-b border-surface-variant/30 shadow-sm">
+<nav class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-2">
+<span class="font-display-lg text-headline-sm text-primary tracking-tight">FridgeChef AI</span>
+</div>
+<div class="hidden md:flex items-center gap-stack-lg">
+<a class="text-on-surface-variant font-label-md hover:text-primary transition-colors" href="#features">Features</a>
+<a class="text-on-surface-variant font-label-md hover:text-primary transition-colors" href="#how-it-works">How it Works</a>
+<a class="text-on-surface-variant font-label-md hover:text-primary transition-colors" href="#pricing">Pricing</a>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-md hover:opacity-90 active:scale-95 transition-all">Start Free</button>
+</div>
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</nav>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="relative pt-12 md:pt-24 pb-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="grid md:grid-cols-2 gap-12 items-center">
+<div class="z-10">
+<span class="inline-block py-1 px-4 rounded-full bg-primary-container/20 text-primary font-label-sm mb-6">
+                        Revolutionizing Modern Kitchens
+                    </span>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-6 leading-tight">
+                        Your AI Kitchen Companion That <span class="ai-gradient-text">Saves Money, Time &amp; Food.</span>
+</h1>
+<p class="text-body-lg text-on-surface-variant mb-10 max-w-lg">
+                        FridgeChef AI turns your leftover ingredients into gourmet experiences. Reduce waste by 35% and never ask "what's for dinner" again.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-xl font-label-md hover:shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2">
+                            Start Free Trial
+                            <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+<button class="bg-surface-container-high text-on-surface px-8 py-4 rounded-xl font-label-md hover:bg-surface-container-highest active:scale-95 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">play_circle</span>
+                            Watch Demo
+                        </button>
+</div>
+<div class="mt-12 flex items-center gap-8 border-t border-surface-variant/30 pt-8">
+<div>
+<p class="font-headline-sm text-primary">50K+</p>
+<p class="font-label-sm text-on-surface-variant">Meals Generated</p>
+</div>
+<div class="w-px h-10 bg-surface-variant/50"></div>
+<div>
+<p class="font-headline-sm text-secondary">35%</p>
+<p class="font-label-sm text-on-surface-variant">Waste Reduced</p>
+</div>
+</div>
+</div>
+<div class="relative">
+<div class="relative z-10 rounded-3xl overflow-hidden shadow-2xl border-8 border-white">
+<img alt="AI Chef UI" class="w-full aspect-[4/3] object-cover" data-alt="A high-end, bright, and modern minimalist kitchen setting where a tablet displays a sophisticated AI cooking application interface. The lighting is soft and natural, emphasizing a clean Silicon Valley aesthetic with white surfaces and subtle green accents. A bowl of fresh, vibrant vegetables sits nearby, creating a sense of intelligent, healthy living and culinary efficiency." src="https://lh3.googleusercontent.com/aida-public/AB6AXuApKVzmZIWd5VldGfq-Ql8j2_0srlULaZFqRZtOeZbuJlkwfgBrVY0W-ONM_YkH5vTAfxsFQG33IY1ZR-cOdgGrJYp4qG0jH2iAfJAFGfVpuWXdozC6tjfB2DGd_qonrIGcnYhl7sTkPobPrsq3Rj4kZrWBP0MOAv09SnYSWqH7_H5WC61eseNWCFtKCIAJvOAA3dnxDyOZxc4j-WYxRNAxwiUBi_SnV8hRr5QPuBDNigrLqJGsyy3sSq2nWuRQKEOuZddNgRTz0qPW"/>
+</div>
+<!-- Glassmorphic Stats Overlays -->
+<div class="absolute -top-6 -right-6 z-20 glass-card p-4 rounded-2xl flex items-center gap-3 animate-bounce shadow-xl" style="animation-duration: 3s;">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">eco</span>
+</div>
+<div>
+<p class="text-xs font-label-sm text-on-surface-variant">Eco Impact</p>
+<p class="text-sm font-bold text-on-surface">Saving 12kg CO2/mo</p>
+</div>
+</div>
+<div class="absolute -bottom-10 -left-10 z-20 glass-card p-5 rounded-2xl max-w-[240px] shadow-2xl">
+<div class="flex items-center gap-2 mb-3">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<p class="text-xs font-label-md text-on-surface">AI Thinking...</p>
+</div>
+<div class="space-y-2">
+<div class="h-2 w-full bg-surface-container-high rounded shimmer"></div>
+<div class="h-2 w-3/4 bg-surface-container-high rounded shimmer"></div>
+<p class="text-sm font-medium mt-2">"Found 3 recipes with Spinach and Salmon."</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Bento Grid -->
+<section class="py-24 bg-surface-container-lowest" id="features">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="text-center max-w-2xl mx-auto mb-16">
+<h2 class="font-headline-md text-on-surface mb-4">Intelligent Features for Modern Home Chefs</h2>
+<p class="text-body-md text-on-surface-variant">We've combined computer vision with advanced LLMs to create the ultimate kitchen OS.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-6">
+<div class="md:col-span-2 glass-card p-8 rounded-[32px] overflow-hidden relative group">
+<div class="relative z-10">
+<span class="material-symbols-outlined text-4xl text-primary mb-6">document_scanner</span>
+<h3 class="font-headline-sm text-on-surface mb-3">Smart Vision Scanner</h3>
+<p class="text-body-md text-on-surface-variant max-w-md">Take a photo of your fridge, and FridgeChef AI identifies every ingredient instantly using military-grade computer vision.</p>
+</div>
+<div class="absolute bottom-0 right-0 w-1/2 h-full opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[200px] absolute -bottom-10 -right-10">center_focus_strong</span>
+</div>
+</div>
+<div class="bg-primary text-on-primary p-8 rounded-[32px] flex flex-col justify-between">
+<div>
+<span class="material-symbols-outlined text-4xl mb-6">bolt</span>
+<h3 class="font-headline-sm mb-3">Instant Planning</h3>
+<p class="text-on-primary/80">Generate weekly meal plans based on what you actually have, not what you need to buy.</p>
+</div>
+<div class="mt-8">
+<button class="bg-white/20 hover:bg-white/30 px-6 py-2 rounded-full font-label-md transition-colors">Learn more</button>
+</div>
+</div>
+<div class="bg-secondary-container text-on-secondary-container p-8 rounded-[32px]">
+<span class="material-symbols-outlined text-4xl mb-6">savings</span>
+<h3 class="font-headline-sm mb-3">Save $150/mo</h3>
+<p>Our users report an average saving of $150 per month on grocery bills by using every item before it spoils.</p>
+</div>
+<div class="md:col-span-2 glass-card p-8 rounded-[32px] flex flex-col md:flex-row items-center gap-8">
+<div class="flex-1">
+<h3 class="font-headline-sm text-on-surface mb-3">Seamless Integration</h3>
+<p class="text-body-md text-on-surface-variant">Syncs with Instacart, Amazon Fresh, and your smart fridge to keep your inventory updated in real-time.</p>
+</div>
+<div class="flex-1 flex gap-4">
+<div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center border border-surface-variant">
+<span class="material-symbols-outlined text-primary">shopping_cart</span>
+</div>
+<div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center border border-surface-variant">
+<span class="material-symbols-outlined text-primary">kitchen</span>
+</div>
+<div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center border border-surface-variant">
+<span class="material-symbols-outlined text-primary">sync</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works (Minimalist Steps) -->
+<section class="py-24 overflow-hidden" id="how-it-works">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-20">
+<div class="max-w-xl">
+<h2 class="font-headline-md text-on-surface mb-4">Cooking has never been this effortless.</h2>
+<p class="text-body-md text-on-surface-variant">Three simple steps to culinary mastery and zero waste.</p>
+</div>
+<div class="hidden md:block">
+<div class="flex gap-2">
+<button class="w-12 h-12 rounded-full border border-surface-variant flex items-center justify-center hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<button class="w-12 h-12 rounded-full border border-surface-variant flex items-center justify-center hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<div class="grid md:grid-cols-3 gap-12 relative">
+<!-- Step 1 -->
+<div class="relative">
+<div class="text-[120px] font-black text-surface-container-high absolute -top-16 -left-4 z-0 opacity-50">1</div>
+<div class="relative z-10">
+<div class="w-16 h-16 rounded-2xl bg-primary-container/20 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-3xl text-primary">camera_alt</span>
+</div>
+<h4 class="font-headline-sm mb-3">Scan Your Kitchen</h4>
+<p class="text-on-surface-variant">Point your camera at your fridge or pantry. Our AI automatically logs expiration dates and quantity.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative">
+<div class="text-[120px] font-black text-surface-container-high absolute -top-16 -left-4 z-0 opacity-50">2</div>
+<div class="relative z-10">
+<div class="w-16 h-16 rounded-2xl bg-tertiary-fixed/30 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-3xl text-tertiary">psychology</span>
+</div>
+<h4 class="font-headline-sm mb-3">AI Intelligence</h4>
+<p class="text-on-surface-variant">FridgeChef analyzes your tastes, dietary needs, and ingredients to craft the perfect recipe suggestion.</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative">
+<div class="text-[120px] font-black text-surface-container-high absolute -top-16 -left-4 z-0 opacity-50">3</div>
+<div class="relative z-10">
+<div class="w-16 h-16 rounded-2xl bg-secondary-fixed/30 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-3xl text-secondary">restaurant</span>
+</div>
+<h4 class="font-headline-sm mb-3">Cook &amp; Enjoy</h4>
+<p class="text-on-surface-variant">Follow interactive, step-by-step instructions with voice-control so your hands stay clean while cooking.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing Section -->
+<section class="py-24 bg-surface-container-low/50" id="pricing">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="text-center mb-16">
+<h2 class="font-headline-md text-on-surface">Plans that fit your kitchen</h2>
+<p class="text-on-surface-variant mt-2">Start for free, upgrade when you're ready to master your kitchen.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+<!-- Free Plan -->
+<div class="glass-card p-8 rounded-[24px] flex flex-col border-transparent">
+<p class="font-label-md text-on-surface-variant mb-4">Basic</p>
+<h3 class="font-headline-md mb-2">$0 <span class="text-body-md font-normal text-on-surface-variant">/mo</span></h3>
+<p class="text-sm text-on-surface-variant mb-8">Perfect for occasional cooking</p>
+<ul class="space-y-4 mb-10 flex-grow">
+<li class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                                10 AI Recipes per month
+                            </li>
+<li class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                                Basic ingredient scanning
+                            </li>
+<li class="flex items-center gap-3 text-sm text-outline">
+<span class="material-symbols-outlined text-xl">cancel</span>
+                                Weekly meal planner
+                            </li>
+</ul>
+<button class="w-full py-3 rounded-xl border border-surface-variant font-label-md hover:bg-surface-container-high transition-colors">Current Plan</button>
+</div>
+<!-- Pro Plan -->
+<div class="bg-white p-8 rounded-[24px] flex flex-col shadow-2xl relative border-2 border-primary transform md:-translate-y-4">
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-on-primary px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Most Popular
+                        </div>
+<p class="font-label-md text-primary mb-4">Pro Chef</p>
+<h3 class="font-headline-md mb-2">$12 <span class="text-body-md font-normal text-on-surface-variant">/mo</span></h3>
+<p class="text-sm text-on-surface-variant mb-8">For serious home cooks</p>
+<ul class="space-y-4 mb-10 flex-grow">
+<li class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                                Unlimited AI Recipes
+                            </li>
+<li class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                                Advanced Computer Vision
+                            </li>
+<li class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                                Smart Meal Planning
+                            </li>
+<li class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                                Grocery Store Integration
+                            </li>
+</ul>
+<button class="w-full py-3 rounded-xl bg-primary text-on-primary font-label-md hover:opacity-90 transition-opacity">Start 14-Day Free Trial</button>
+</div>
+<!-- Family Plan -->
+<div class="glass-card p-8 rounded-[24px] flex flex-col border-transparent">
+<p class="font-label-md text-on-surface-variant mb-4">Family</p>
+<h3 class="font-headline-md mb-2">$24 <span class="text-body-md font-normal text-on-surface-variant">/mo</span></h3>
+<p class="text-sm text-on-surface-variant mb-8">Complete household management</p>
+<ul class="space-y-4 mb-10 flex-grow">
+<li class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                                Everything in Pro
+                            </li>
+<li class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                                Up to 5 family members
+                            </li>
+<li class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                                Shared shopping lists
+                            </li>
+</ul>
+<button class="w-full py-3 rounded-xl border border-surface-variant font-label-md hover:bg-surface-container-high transition-colors">Contact Sales</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="py-24 px-margin-mobile md:px-margin-desktop">
+<div class="max-w-container-max mx-auto rounded-[40px] bg-inverse-surface text-on-primary p-12 md:p-24 text-center overflow-hidden relative">
+<div class="relative z-10">
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg mb-8">Ready to transform <br class="hidden md:block"/> your kitchen?</h2>
+<p class="text-body-lg mb-12 opacity-80 max-w-2xl mx-auto">Join 100,000+ chefs saving time and the planet with AI-driven culinary intelligence.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="bg-primary text-on-primary px-10 py-5 rounded-2xl font-headline-sm hover:scale-105 transition-transform">Get Started for Free</button>
+<button class="bg-white/10 backdrop-blur-md text-on-primary border border-white/20 px-10 py-5 rounded-2xl font-headline-sm hover:bg-white/20 transition-all">Download App</button>
+</div>
+</div>
+<!-- Background Decoration -->
+<div class="absolute -bottom-24 -right-24 w-96 h-96 bg-primary/20 rounded-full blur-[100px]"></div>
+<div class="absolute -top-24 -left-24 w-96 h-96 bg-secondary/10 rounded-full blur-[100px]"></div>
+</div>
+</section>
+</main>
+<footer class="bg-surface-container-lowest border-t border-surface-variant/30 py-16">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="grid md:grid-cols-4 gap-12 mb-12">
+<div class="col-span-2 md:col-span-1">
+<span class="font-display-lg text-headline-sm text-primary mb-6 block">FridgeChef AI</span>
+<p class="text-on-surface-variant text-sm">The world's first AI-powered kitchen operating system designed to reduce waste and inspire creativity.</p>
+</div>
+<div>
+<h5 class="font-label-md text-on-surface mb-6">Product</h5>
+<ul class="space-y-4 text-sm text-on-surface-variant">
+<li><a class="hover:text-primary" href="#">Features</a></li>
+<li><a class="hover:text-primary" href="#">Integrations</a></li>
+<li><a class="hover:text-primary" href="#">Pricing</a></li>
+<li><a class="hover:text-primary" href="#">App Store</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-md text-on-surface mb-6">Company</h5>
+<ul class="space-y-4 text-sm text-on-surface-variant">
+<li><a class="hover:text-primary" href="#">About Us</a></li>
+<li><a class="hover:text-primary" href="#">Sustainability</a></li>
+<li><a class="hover:text-primary" href="#">Careers</a></li>
+<li><a class="hover:text-primary" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-md text-on-surface mb-6">Legal</h5>
+<ul class="space-y-4 text-sm text-on-surface-variant">
+<li><a class="hover:text-primary" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-primary" href="#">Terms of Service</a></li>
+<li><a class="hover:text-primary" href="#">Cookie Policy</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-8 border-t border-surface-variant/20 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-xs text-on-surface-variant">© 2024 FridgeChef AI Inc. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-on-surface-variant hover:text-primary" href="#"><span class="material-symbols-outlined">public</span></a>
+<a class="text-on-surface-variant hover:text-primary" href="#"><span class="material-symbols-outlined">camera</span></a>
+<a class="text-on-surface-variant hover:text-primary" href="#"><span class="material-symbols-outlined">brand_awareness</span></a>
+</div>
+</div>
+</div>
+</footer>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-t border-surface-variant/30 flex justify-around items-center px-4 py-2 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center bg-primary-container/20 text-on-primary-container rounded-full px-4 py-1" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#features">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="text-[10px] font-label-sm">Features</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">document_scanner</span>
+<span class="text-[10px] font-label-sm">Scanner</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#pricing">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-[10px] font-label-sm">Plans</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Smooth scroll implementation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
+            observer.observe(section);
+        });
+    </script>
+</body></html>

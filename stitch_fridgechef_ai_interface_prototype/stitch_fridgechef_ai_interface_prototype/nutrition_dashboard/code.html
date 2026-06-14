@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FridgeChef AI - Nutrition Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Geist:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .dark .glass-card {
+            background: rgba(33, 49, 69, 0.8);
+            border-color: rgba(61, 74, 61, 0.2);
+        }
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(74, 225, 118, 0.1), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .ai-gradient {
+            background: linear-gradient(135deg, #006e2f 0%, #fd761a 100%);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#213145",
+                        "on-secondary-container": "#5c2400",
+                        "inverse-primary": "#4ae176",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed-dim": "#4ae176",
+                        "on-surface-variant": "#3d4a3d",
+                        "on-primary-fixed-variant": "#005321",
+                        "secondary-fixed-dim": "#ffb690",
+                        "surface-container-low": "#eff4ff",
+                        "surface-variant": "#d3e4fe",
+                        "tertiary-fixed": "#dae2fd",
+                        "surface-container-high": "#dce9ff",
+                        "surface-tint": "#006e2f",
+                        "surface-dim": "#cbdbf5",
+                        "inverse-on-surface": "#eaf1ff",
+                        "outline": "#6d7b6c",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#783200",
+                        "on-primary-fixed": "#002109",
+                        "primary": "#006e2f",
+                        "background": "#f8f9ff",
+                        "on-error": "#ffffff",
+                        "tertiary": "#565e74",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#22c55e",
+                        "on-tertiary-container": "#383f54",
+                        "on-background": "#0b1c30",
+                        "on-primary-container": "#004b1e",
+                        "secondary": "#9d4300",
+                        "on-tertiary-fixed": "#131b2e",
+                        "surface": "#f8f9ff",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed": "#341100",
+                        "secondary-container": "#fd761a",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "surface-bright": "#f8f9ff",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#ffdbca",
+                        "primary-fixed": "#6bff8f",
+                        "outline-variant": "#bccbb9",
+                        "surface-container": "#e5eeff",
+                        "tertiary-container": "#a4abc4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1200px",
+                        "margin-mobile": "16px",
+                        "unit": "8px",
+                        "stack-lg": "32px",
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "label-sm": ["Geist"],
+                        "headline-sm": ["Inter"],
+                        "label-md": ["Geist"],
+                        "body-md": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600"}],
+                        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md transition-colors duration-300">
+<!-- Top Navigation -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl text-primary dark:text-primary-fixed-dim w-full sticky top-0 z-40 border-b border-surface-variant/30 dark:border-outline-variant/20 shadow-sm">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM1GEX5_gomxshGFcAyoPlkPlczGy8KJnQ6j9A7lbtaY4kdK-E_UT6vEJaXHpDOFMdAEUZVT9JNBPLEtFNzbwJgDMfja50Be3xdklzMNwxW-C4QB5zzQGvzXp5OBojqyiohT-Pvr4qDw7buzTfQBxTmjRRxPQ11jJTH07XqyP28Voc_v0xZSDltZ-kupDGJ_otyUYrWEcM5H4BtSH-1RsHDMVC3u3BpkL2lRVkAZJGYJrQPyRvqQ3MqHz39zUDTgpc_glbEaLd3Z8s"/>
+</div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-headline-sm text-primary dark:text-inverse-primary tracking-tight">FridgeChef AI</h1>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex gap-8 items-center font-label-md">
+<a class="text-on-surface-variant dark:text-outline-variant hover:opacity-80 transition-opacity" href="#">Home</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:opacity-80 transition-opacity" href="#">Recipes</a>
+<a class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity" href="#">Health</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:opacity-80 transition-opacity" href="#">Planner</a>
+</nav>
+<button class="material-symbols-outlined text-on-surface-variant dark:text-outline-variant active:scale-95 duration-200">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant dark:text-outline-variant active:scale-95 duration-200" id="theme-toggle">dark_mode</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg pb-32">
+<!-- Hero Section: AI Health Score -->
+<section class="mb-stack-lg">
+<div class="glass-card rounded-[32px] p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+<div class="shimmer absolute inset-0 opacity-10 pointer-events-none"></div>
+<div class="relative z-10 max-w-xl text-center md:text-left">
+<span class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-primary-container/20 text-primary font-label-md mb-4">
+<span class="material-symbols-outlined text-sm">auto_awesome</span> AI Insights Live
+                    </span>
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-2">Your Health Score</h2>
+<p class="text-body-lg text-on-surface-variant mb-6">Based on your last 7 days of scanning and cooking, you're performing 15% better than last month. Keep up the high-fiber streak!</p>
+<div class="flex flex-wrap gap-4 justify-center md:justify-start">
+<button class="ai-gradient text-on-primary px-8 py-3 rounded-full font-label-md hover:opacity-90 active:scale-95 transition-all shadow-lg shadow-primary/20">Generate Health Plan</button>
+<button class="bg-surface-container-high dark:bg-surface-container-low text-on-surface px-8 py-3 rounded-full font-label-md border border-outline-variant/30 hover:bg-surface-container transition-colors">View Deep Dive</button>
+</div>
+</div>
+<div class="relative w-64 h-64 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container-highest dark:text-inverse-surface" cx="128" cy="128" fill="transparent" r="110" stroke="currentColor" stroke-width="16"></circle>
+<circle class="text-primary-container" cx="128" cy="128" fill="transparent" r="110" stroke="currentColor" stroke-dasharray="690" stroke-dashoffset="120" stroke-linecap="round" stroke-width="16"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-display-lg text-display-lg-mobile text-on-surface">82</span>
+<span class="font-label-md text-on-surface-variant">OPTIMAL</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid: Main Trackers -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Nutrition Circles -->
+<div class="md:col-span-8 grid grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Calories -->
+<div class="glass-card p-6 rounded-3xl flex flex-col items-center text-center">
+<span class="font-label-md text-on-surface-variant mb-4">Calories</span>
+<div class="relative w-32 h-32 mb-4">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container" cx="64" cy="64" fill="transparent" r="54" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary" cx="64" cy="64" fill="transparent" r="54" stroke="currentColor" stroke-dasharray="340" stroke-dashoffset="85" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-headline-sm text-on-surface">1,640</span>
+<span class="text-[10px] text-on-surface-variant">/ 2,200</span>
+</div>
+</div>
+<p class="text-label-sm text-on-surface-variant">75% of Daily Goal</p>
+</div>
+<!-- Protein -->
+<div class="glass-card p-6 rounded-3xl flex flex-col items-center text-center">
+<span class="font-label-md text-on-surface-variant mb-4">Protein</span>
+<div class="relative w-32 h-32 mb-4">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container" cx="64" cy="64" fill="transparent" r="54" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-secondary" cx="64" cy="64" fill="transparent" r="54" stroke="currentColor" stroke-dasharray="340" stroke-dashoffset="170" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-headline-sm text-on-surface">85g</span>
+<span class="text-[10px] text-on-surface-variant">/ 150g</span>
+</div>
+</div>
+<p class="text-label-sm text-on-surface-variant">56% of Daily Goal</p>
+</div>
+<!-- Carbs -->
+<div class="glass-card p-6 rounded-3xl flex flex-col items-center text-center">
+<span class="font-label-md text-on-surface-variant mb-4">Carbs</span>
+<div class="relative w-32 h-32 mb-4">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container" cx="64" cy="64" fill="transparent" r="54" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-tertiary" cx="64" cy="64" fill="transparent" r="54" stroke="currentColor" stroke-dasharray="340" stroke-dashoffset="120" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-headline-sm text-on-surface">190g</span>
+<span class="text-[10px] text-on-surface-variant">/ 250g</span>
+</div>
+</div>
+<p class="text-label-sm text-on-surface-variant">76% of Daily Goal</p>
+</div>
+</div>
+<!-- Side Cards: Quick Stats -->
+<div class="md:col-span-4 flex flex-col gap-gutter">
+<!-- Water Tracker -->
+<div class="glass-card p-6 rounded-3xl flex-1 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">water_drop</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface">Water Intake</p>
+<p class="text-headline-sm text-primary">2.4 / 3.5 L</p>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<!-- Fat Tracker -->
+<div class="glass-card p-6 rounded-3xl flex-1">
+<div class="flex justify-between items-center mb-4">
+<p class="font-label-md text-on-surface-variant">Total Fat</p>
+<p class="font-headline-sm text-on-surface">45g <span class="text-label-sm font-normal text-on-surface-variant">/ 70g</span></p>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container w-[64%] rounded-full"></div>
+</div>
+</div>
+<!-- Fiber Tracker -->
+<div class="glass-card p-6 rounded-3xl flex-1">
+<div class="flex justify-between items-center mb-4">
+<p class="font-label-md text-on-surface-variant">Fiber</p>
+<p class="font-headline-sm text-on-surface">28g <span class="text-label-sm font-normal text-on-surface-variant">/ 35g</span></p>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-[80%] rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Trends & Analytics -->
+<div class="md:col-span-12 lg:col-span-7 glass-card p-8 rounded-[32px]">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-headline-sm text-on-surface">Weight Trend</h3>
+<div class="flex gap-2">
+<button class="px-4 py-1 rounded-full text-label-sm bg-primary-container/10 text-primary">Weekly</button>
+<button class="px-4 py-1 rounded-full text-label-sm text-on-surface-variant">Monthly</button>
+</div>
+</div>
+<div class="h-[300px] w-full flex items-end justify-between px-2">
+<!-- Simple Bar Representation for Visuals -->
+<div class="w-12 bg-surface-container h-[90%] rounded-t-xl hover:bg-primary-container/20 transition-colors relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-inverse-surface text-on-primary text-[10px] px-2 py-1 rounded">78.5kg</div>
+</div>
+<div class="w-12 bg-surface-container h-[88%] rounded-t-xl hover:bg-primary-container/20 transition-colors relative group"></div>
+<div class="w-12 bg-surface-container h-[85%] rounded-t-xl hover:bg-primary-container/20 transition-colors relative group"></div>
+<div class="w-12 bg-surface-container h-[86%] rounded-t-xl hover:bg-primary-container/20 transition-colors relative group"></div>
+<div class="w-12 bg-surface-container h-[82%] rounded-t-xl hover:bg-primary-container/20 transition-colors relative group"></div>
+<div class="w-12 bg-primary-container h-[80%] rounded-t-xl relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-on-primary text-[10px] px-2 py-1 rounded">76.2kg</div>
+</div>
+<div class="w-12 bg-surface-container h-[79%] rounded-t-xl hover:bg-primary-container/20 transition-colors relative group"></div>
+</div>
+<div class="flex justify-between mt-4 text-label-sm text-on-surface-variant px-2">
+<span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+</div>
+</div>
+<!-- BMI & Body Composition -->
+<div class="md:col-span-12 lg:col-span-5 glass-card p-8 rounded-[32px]">
+<h3 class="font-headline-sm text-on-surface mb-8">Body Metrics</h3>
+<div class="space-y-6">
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-2xl">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-tertiary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary">monitor_weight</span>
+</div>
+<div>
+<p class="text-label-md text-on-surface-variant">Current BMI</p>
+<p class="font-headline-sm text-on-surface">23.4</p>
+</div>
+</div>
+<span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold">NORMAL</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-2xl">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-secondary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">accessibility_new</span>
+</div>
+<div>
+<p class="text-label-md text-on-surface-variant">Body Fat %</p>
+<p class="font-headline-sm text-on-surface">18.2%</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary">trending_down</span>
+</div>
+<div class="p-6 bg-primary-container/10 rounded-[24px] border border-primary/20">
+<p class="font-label-md text-primary mb-2">AI Recommendation</p>
+<p class="text-body-md text-on-surface-variant leading-relaxed">
+                            "You are currently in a slight caloric deficit. To maintain muscle mass while reducing BMI, consider increasing protein intake by 15g in your next meal."
+                        </p>
+<button class="mt-4 text-primary font-label-md flex items-center gap-2 hover:gap-3 transition-all">
+                            Adjust Meal Plan <span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Meal History / Recent Activity -->
+<section class="mt-stack-lg">
+<h3 class="font-headline-sm text-on-surface mb-6">Recent Nutritional Intake</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="glass-card p-4 rounded-3xl flex items-center gap-4">
+<img class="w-16 h-16 rounded-2xl object-cover" data-alt="A macro photograph of a vibrant Mediterranean quinoa salad with cherry tomatoes, cucumbers, and feta cheese, bright natural lighting, fresh green palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCm64PpBHh0jtP1W5vn9lyZp6BrJ7runJ08FzKyWx6o6unL_uebUGAycUCm4S5wuRc4mlp-Mt_tcMfbMw6PJHNukLxtoYOlHBma4JjQwcWSxAF05vxAGr9kH2tHWYaZnZ9nisXKbFqJvuKUTBe2e7ecztS9IdolEpnqFHvHOTIu3DusRzgxCatcMs1O3x424N7BtPrHALFDXemQK6-1s4mIhkGbH3RgQu5admsSSP5lPZAX2fF82xJPIRQSKVyofsLbd07UyG5kafYa"/>
+<div class="flex-1">
+<p class="font-label-md text-on-surface">Grilled Chicken Quinoa Bowl</p>
+<p class="text-label-sm text-on-surface-variant">Lunch • 420 kcal • 35g Protein</p>
+</div>
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</div>
+<div class="glass-card p-4 rounded-3xl flex items-center gap-4">
+<img class="w-16 h-16 rounded-2xl object-cover" data-alt="A minimalist overhead shot of a warm bowl of steel-cut oatmeal topped with fresh blueberries and a drizzle of honey, soft morning sunlight, serene clean kitchen aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk_iiq9Xx_1_Ozhfs_LZZDJWlZJVsO_Zt4HDyHIl1zh8wznm8CYGj5dFaVuIfK3nNyq0RYzt027DYj_TTnnizdlRq7_stEiA60LxWmDQ86m2zYJz6hnAlyJMfSxyM2t8MGribpDNwZ08sZhdFnOusz4_M6oGJBrRV3sstoN9_dnDABesvQRQXCwW78MKoPBb7d32RYC_OC2G-BlMSP605meIWYLGi4Iz_Aw5s7m9t9Q-oTd8YgWfwPvqsC8mxnPjIF__yjI1Ub7xV7"/>
+<div class="flex-1">
+<p class="font-label-md text-on-surface">Berry Almond Oatmeal</p>
+<p class="text-label-sm text-on-surface-variant">Breakfast • 310 kcal • 12g Fiber</p>
+</div>
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-xl flex justify-around items-center px-4 py-2 pb-safe border-t border-surface-variant/30 dark:border-outline-variant/20 z-50 rounded-t-xl shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-label-sm text-label-sm">Recipes</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container/20 dark:bg-primary-container text-on-primary-container rounded-full px-4 py-1" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-sm text-label-sm">Health</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-sm text-label-sm">Planner</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            themeToggle.textContent = html.classList.contains('dark') ? 'light_mode' : 'dark_mode';
+        });
+
+        // Simple scale effect for micro-interactions
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));
+            btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('scale-95'));
+        });
+    </script>
+</body></html>

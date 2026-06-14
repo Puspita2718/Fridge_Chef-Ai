@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>FridgeChef AI - Culinary Assistant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Geist:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#213145",
+                    "on-secondary-container": "#5c2400",
+                    "inverse-primary": "#4ae176",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed-dim": "#4ae176",
+                    "on-surface-variant": "#3d4a3d",
+                    "on-primary-fixed-variant": "#005321",
+                    "secondary-fixed-dim": "#ffb690",
+                    "surface-container-low": "#eff4ff",
+                    "surface-variant": "#d3e4fe",
+                    "tertiary-fixed": "#dae2fd",
+                    "surface-container-high": "#dce9ff",
+                    "surface-tint": "#006e2f",
+                    "surface-dim": "#cbdbf5",
+                    "inverse-on-surface": "#eaf1ff",
+                    "outline": "#6d7b6c",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#783200",
+                    "on-primary-fixed": "#002109",
+                    "primary": "#006e2f",
+                    "background": "#f8f9ff",
+                    "on-error": "#ffffff",
+                    "tertiary": "#565e74",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#22c55e",
+                    "on-tertiary-container": "#383f54",
+                    "on-background": "#0b1c30",
+                    "on-primary-container": "#004b1e",
+                    "secondary": "#9d4300",
+                    "on-tertiary-fixed": "#131b2e",
+                    "surface": "#f8f9ff",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed": "#341100",
+                    "secondary-container": "#fd761a",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "surface-bright": "#f8f9ff",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed": "#ffdbca",
+                    "primary-fixed": "#6bff8f",
+                    "outline-variant": "#bccbb9",
+                    "surface-container": "#e5eeff",
+                    "tertiary-container": "#a4abc4"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1200px",
+                    "margin-mobile": "16px",
+                    "unit": "8px",
+                    "stack-lg": "32px",
+                    "gutter": "24px",
+                    "stack-sm": "8px",
+                    "stack-md": "16px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "label-sm": ["Geist"],
+                    "headline-sm": ["Inter"],
+                    "label-md": ["Geist"],
+                    "body-md": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f8f9ff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+        }
+        .ai-shimmer {
+            background: linear-gradient(90deg, rgba(34,197,94,0.1) 0%, rgba(34,197,94,0.3) 50%, rgba(34,197,94,0.1) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .message-appear {
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="text-on-surface">
+<!-- Top Navigation Bar (Predicted Shared Component) -->
+<header class="bg-surface/80 backdrop-blur-xl border-b border-surface-variant/30 w-full sticky top-0 z-40 shadow-sm">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container/20 flex items-center justify-center">
+<img alt="Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaOwDvINXCURWGI1odzY1NOjeHBcHbBz8Tli_LRQSOryuRhYqQ8G6bQ8BxHhgeVW0JJRjcDDzO9J4SlbhpH3Hx104JbcvX-iOOorAYeYlU_COZFoHYglDG3T5f0X87c8Nqb0xysERojGKHUGWgI6HhIniC7A5BcdWjsWS303JKvYdOtt8Nx--MHsC_-FHJMdvQzBQS-gLMgYsxtKZTTaVv2JSQ7Blq03wVMRElr5gLaCgGBVJcKfAad2I0fVEYWZLmp3nMo-EKIMIN"/>
+</div>
+<h1 class="font-display-lg text-[20px] md:text-display-lg text-primary tracking-tight">FridgeChef AI</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity active:scale-95 duration-200">notifications</button>
+</div>
+</div>
+</header>
+<!-- Main Chat Canvas -->
+<main class="relative min-h-[calc(100vh-160px)] flex flex-col max-w-4xl mx-auto px-4 py-8 pb-32">
+<!-- Background Atmospheric Element -->
+<div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+
+</div>
+<!-- Chat History -->
+<div class="flex flex-col gap-6 w-full" id="chat-container">
+<!-- AI Welcome Message -->
+<div class="flex justify-start message-appear">
+<div class="max-w-[85%] md:max-w-[70%]">
+<div class="glass-card rounded-2xl rounded-tl-none p-5">
+<p class="font-body-md text-on-surface">Hello! I'm your FridgeChef AI. What do you have in your kitchen today?</p>
+<div class="mt-3 flex flex-wrap gap-2">
+<span class="bg-primary-container/10 text-primary px-3 py-1 rounded-full font-label-sm text-xs cursor-pointer hover:bg-primary-container/20 transition-colors">Scan my fridge</span>
+<span class="bg-primary-container/10 text-primary px-3 py-1 rounded-full font-label-sm text-xs cursor-pointer hover:bg-primary-container/20 transition-colors">Quick dinner idea</span>
+</div>
+</div>
+<span class="text-[10px] font-label-sm text-outline mt-1 block ml-2">9:41 AM</span>
+</div>
+</div>
+<!-- User Message Example -->
+<div class="flex justify-end message-appear">
+<div class="max-w-[85%] md:max-w-[70%]">
+<div class="bg-primary text-on-primary rounded-2xl rounded-tr-none p-5 shadow-lg">
+<p class="font-body-md">I have some eggs, tomatoes, and a bit of onion. Any ideas?</p>
+</div>
+<span class="text-[10px] font-label-sm text-outline mt-1 block text-right mr-2">9:42 AM</span>
+</div>
+</div>
+<!-- AI Response Example -->
+<div class="flex justify-start message-appear">
+<div class="max-w-[85%] md:max-w-[70%]">
+<div class="glass-card rounded-2xl rounded-tl-none p-5 border-l-4 border-primary">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-label-md text-primary uppercase tracking-widest text-[10px]">Chef Recommendation</span>
+</div>
+<p class="font-body-md text-on-surface mb-4">With those ingredients, you can make a delicious **Shakshuka**! It's a healthy, flavorful North African dish where eggs are poached in a spicy tomato sauce.</p>
+<!-- Recipe Card In-Chat -->
+<div class="rounded-xl overflow-hidden border border-surface-variant/50 bg-surface-container-lowest shadow-sm group cursor-pointer hover:border-primary/30 transition-all">
+<div class="h-32 w-full relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A high-end gourmet presentation of Shakshuka in a rustic cast-iron skillet. The dish features vibrant red tomato sauce simmering with aromatic spices, topped with perfectly poached eggs with soft yolks. Fresh green parsley is sprinkled on top. The scene is shot from a top-down angle on a dark slate background with warm, atmospheric lighting, fitting the FridgeChef premium aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsmt3qyiH7c6zfwXuRz4i9TgXqgGJJVRw1v_7q4C0fGlZLOvqrfzRV_S5fH6X3hMbv_-6siluA-QxBsPgdfZN13l_axY3gsHMEfyVubQA7xVmpuOgnYwpkomiwzeVK7VMevUNaqKsTlBCm6RdDsLo-5rtj7TbakjNvVP295d_xgKGt5k7xr_stCIoORquSlt7XiFZP7kzbGUC5xIqWRhGJspDrDcFQeyh9b6iItY_h0drahacN8V0gRM50dyqeRosw-pFsBBHzpz_m"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-3 left-4 text-white">
+<h4 class="font-headline-sm text-sm">Classic Shakshuka</h4>
+<p class="text-[10px] opacity-80">15 mins • Easy</p>
+</div>
+</div>
+<div class="p-3 flex justify-between items-center">
+<span class="text-xs font-label-md text-outline">View Step-by-Step</span>
+<span class="material-symbols-outlined text-primary text-lg">arrow_forward</span>
+</div>
+</div>
+</div>
+<span class="text-[10px] font-label-sm text-outline mt-1 block ml-2">9:42 AM</span>
+</div>
+</div>
+<!-- AI Typing Indicator (Hidden by default) -->
+<div class="flex justify-start hidden" id="typing-indicator">
+<div class="glass-card rounded-2xl rounded-tl-none px-4 py-3 flex gap-1">
+<div class="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce"></div>
+<div class="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+<div class="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Chat Input -->
+<div class="fixed bottom-24 md:bottom-28 left-0 w-full z-40 px-4">
+<div class="max-w-2xl mx-auto glass-card rounded-full p-2 flex items-center gap-2 shadow-xl border border-white/60">
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-outline hover:bg-surface-container-high transition-colors active:scale-90">
+<span class="material-symbols-outlined">image</span>
+</button>
+<input class="flex-1 bg-transparent border-none focus:ring-0 font-body-md text-on-surface py-2 px-2" id="chat-input" placeholder="Type ingredients or ask for a recipe..." type="text"/>
+<div class="flex items-center gap-1">
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-primary hover:bg-primary-container/10 transition-colors active:scale-90" title="Voice Input">
+<span class="material-symbols-outlined">mic</span>
+</button>
+<button class="bg-primary text-on-primary w-10 h-10 flex items-center justify-center rounded-full shadow-md hover:opacity-90 active:scale-90 transition-all" id="send-button">
+<span class="material-symbols-outlined">arrow_upward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation Bar (Shared Component) -->
+<nav class="fixed bottom-0 left-0 w-full bg-surface/80 backdrop-blur-xl border-t border-surface-variant/30 flex justify-around items-center px-4 py-2 pb-safe z-50">
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors px-4 py-1 rounded-full cursor-pointer">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors px-4 py-1 rounded-full cursor-pointer">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-label-sm text-label-sm">Recipes</span>
+</div>
+<!-- Active Tab: Scanner/Assistant Intent -->
+<div class="flex flex-col items-center justify-center bg-primary-container/20 text-on-primary-container rounded-full px-4 py-1">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">document_scanner</span>
+<span class="font-label-sm text-label-sm">Scanner</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors px-4 py-1 rounded-full cursor-pointer">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-sm text-label-sm">Planner</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors px-4 py-1 rounded-full cursor-pointer">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</div>
+</nav>
+<script>
+        const input = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-button');
+        const container = document.getElementById('chat-container');
+        const typing = document.getElementById('typing-indicator');
+
+        function appendMessage(text, isUser = true) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `flex ${isUser ? 'justify-end' : 'justify-start'} message-appear mb-4`;
+            
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            if (isUser) {
+                wrapper.innerHTML = `
+                    <div class="max-w-[85%] md:max-w-[70%]">
+                        <div class="bg-primary text-on-primary rounded-2xl rounded-tr-none p-5 shadow-lg">
+                            <p class="font-body-md">${text}</p>
+                        </div>
+                        <span class="text-[10px] font-label-sm text-outline mt-1 block text-right mr-2">${time}</span>
+                    </div>
+                `;
+            } else {
+                wrapper.innerHTML = `
+                    <div class="max-w-[85%] md:max-w-[70%]">
+                        <div class="glass-card rounded-2xl rounded-tl-none p-5">
+                            <p class="font-body-md text-on-surface">${text}</p>
+                        </div>
+                        <span class="text-[10px] font-label-sm text-outline mt-1 block ml-2">${time}</span>
+                    </div>
+                `;
+            }
+            
+            container.insertBefore(wrapper, typing);
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        sendBtn.addEventListener('click', () => {
+            const val = input.value.trim();
+            if (!val) return;
+            
+            appendMessage(val, true);
+            input.value = '';
+            
+            // Simulate AI
+            typing.classList.remove('hidden');
+            setTimeout(() => {
+                typing.classList.add('hidden');
+                appendMessage("That sounds great! I'm thinking about a few more possibilities. Should I look for high-protein recipes or something quick under 20 minutes?", false);
+            }, 1800);
+        });
+
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendBtn.click();
+        });
+
+        // Interactive micro-interaction for mic button
+        const micBtn = document.querySelector('button[title="Voice Input"]');
+        micBtn.addEventListener('click', () => {
+            micBtn.classList.toggle('text-error');
+            if(micBtn.classList.contains('text-error')) {
+                micBtn.innerHTML = '<span class="material-symbols-outlined animate-pulse">mic</span>';
+            } else {
+                micBtn.innerHTML = '<span class="material-symbols-outlined">mic</span>';
+            }
+        });
+    </script>
+</body></html>
