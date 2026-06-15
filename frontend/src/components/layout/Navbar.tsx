@@ -29,9 +29,9 @@ export default function Navbar() {
             <Link href="#pricing" className="text-muted-foreground font-medium hover:text-primary transition-colors">
               Pricing
             </Link>
-            <button className="bg-primary text-primary-foreground px-6 py-2 rounded-full font-medium hover:opacity-90 active:scale-95 transition-all">
+            <Link href="/signup" className="bg-primary text-primary-foreground px-6 py-2 rounded-full font-medium hover:opacity-90 active:scale-95 transition-all text-center">
               Start Free
-            </button>
+            </Link>
           </div>
 
           <button 
@@ -55,9 +55,9 @@ export default function Navbar() {
             <Link href="#features" onClick={() => setIsOpen(false)} className="text-foreground font-medium">Features</Link>
             <Link href="#how-it-works" onClick={() => setIsOpen(false)} className="text-foreground font-medium">How it Works</Link>
             <Link href="#pricing" onClick={() => setIsOpen(false)} className="text-foreground font-medium">Pricing</Link>
-            <button className="bg-primary text-primary-foreground px-8 py-3 mt-4 rounded-full font-medium active:scale-95 transition-all">
+            <Link href="/signup" className="bg-primary text-primary-foreground px-8 py-3 mt-4 rounded-full font-medium active:scale-95 transition-all text-center">
               Start Free
-            </button>
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>

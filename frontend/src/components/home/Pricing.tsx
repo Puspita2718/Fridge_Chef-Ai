@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { CheckCircle2, X } from "lucide-react";
 
@@ -92,9 +93,9 @@ export default function Pricing() {
                 Grocery Store Integration
               </li>
             </ul>
-            <button className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity">
+            <Link href="/signup" className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity text-center block">
               Start 14-Day Free Trial
-            </button>
+            </Link>
           </motion.div>
 
           {/* Family Plan */}

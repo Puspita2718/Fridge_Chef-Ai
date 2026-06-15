@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, PlayCircle, Leaf } from "lucide-react";
 
@@ -24,10 +25,10 @@ export default function Hero() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-medium hover:shadow-lg hover:shadow-primary/25 active:scale-95 transition-all flex items-center justify-center gap-2">
+            <Link href="/signup" className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-medium hover:shadow-lg hover:shadow-primary/25 active:scale-95 transition-all flex items-center justify-center gap-2">
               Start Free Trial
               <ArrowRight size={20} />
-            </button>
+            </Link>
             <button className="bg-accent text-accent-foreground px-8 py-4 rounded-xl font-medium hover:bg-muted active:scale-95 transition-all flex items-center justify-center gap-2 border border-border/50">
               <PlayCircle size={20} />
               Watch Demo
@@ -58,7 +59,7 @@ export default function Hero() {
             <img 
               alt="AI Chef UI" 
               className="w-full aspect-[4/3] object-cover" 
-              src="https://images.unsplash.com/photo-1498837167338-5715fb84f592?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+              src="/hero.png" 
             />
           </div>
           
