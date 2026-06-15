@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, ChefHat, Clock, Flame, Filter, Star, ChevronDown } from "lucide-react";
+import { Search, ChefHat, Clock, Flame, Filter, Star } from "lucide-react";
 
 export default function RecipeGenerator() {
   const [search, setSearch] = useState("");

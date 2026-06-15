@@ -23,7 +23,7 @@ export default function Pricing() {
             transition={{ delay: 0.1 }}
             className="text-lg text-muted-foreground"
           >
-            Start for free, upgrade when you're ready to master your kitchen.
+            Start for free, upgrade when you&apos;re ready to master your kitchen.
           </motion.p>
         </div>
 

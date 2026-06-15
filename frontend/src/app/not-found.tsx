@@ -10,7 +10,7 @@ export default function NotFound() {
         <h1 className="text-9xl font-black text-primary/20 mb-4">404</h1>
         <h2 className="text-3xl font-bold text-foreground mb-4">Page Not Found</h2>
         <p className="text-muted-foreground max-w-md mb-8">
-          Oops! The page you're looking for seems to have been eaten by the AI. Let's get you back to the kitchen.
+          Oops! The page you&apos;re looking for seems to have been eaten by the AI. Let&apos;s get you back to the kitchen.
         </p>
         <Link 
           href="/" 

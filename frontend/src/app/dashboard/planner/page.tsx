@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { CalendarDays, ChevronLeft, ChevronRight, Plus, Droplets, Flame } from "lucide-react";
+import { CalendarDays, ChevronLeft, ChevronRight, Plus, Flame } from "lucide-react";
 
 export default function MealPlanner() {
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -60,7 +59,7 @@ export default function MealPlanner() {
       {/* Daily Overview */}
       <div className="grid md:grid-cols-4 gap-6">
         <div className="md:col-span-3 space-y-6">
-          <h3 className="text-xl font-bold text-foreground">Wednesday's Menu</h3>
+          <h3 className="text-xl font-bold text-foreground">Wednesday&apos;s Menu</h3>
           
           <div className="space-y-4">
             {/* Breakfast */}

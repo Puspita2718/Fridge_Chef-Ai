@@ -32,7 +32,7 @@ export default function ForgotPassword() {
       >
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">Forgot Password?</h1>
-          <p className="text-muted-foreground">We'll send you a link to reset your password.</p>
+          <p className="text-muted-foreground">We&apos;ll send you a link to reset your password.</p>
         </div>
 
         {!isSent ? (
@@ -69,7 +69,7 @@ export default function ForgotPassword() {
               <CheckCircle2 size={32} />
             </div>
             <h3 className="text-xl font-semibold text-foreground">Check your email</h3>
-            <p className="text-muted-foreground">We've sent a password reset link to your email address.</p>
+            <p className="text-muted-foreground">We&apos;ve sent a password reset link to your email address.</p>
           </motion.div>
         )}
 

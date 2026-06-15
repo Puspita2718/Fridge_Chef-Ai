@@ -59,7 +59,7 @@ export default function Dashboard() {
         <div className="md:col-span-2 space-y-8">
           <section>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-foreground">Today's Menu</h2>
+              <h2 className="text-2xl font-bold text-foreground">Today&apos;s Menu</h2>
               <Link href="/dashboard/planner" className="text-sm font-medium text-primary hover:underline flex items-center">
                 View Planner <ChevronRight size={16} />
               </Link>

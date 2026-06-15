@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Activity, Flame, Droplets, Target, Award, ArrowUpRight } from "lucide-react";
+import { Flame, Droplets, Target, Award, ArrowUpRight } from "lucide-react";
 import WeeklyChart from "@/components/dashboard/WeeklyChart";
 
 export default function NutritionDashboard() {

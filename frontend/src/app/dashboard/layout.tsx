@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
+
 import { 
   Home, 
   Scan, 
@@ -11,8 +11,7 @@ import {
   ShoppingCart, 
   Activity, 
   Settings, 
-  LogOut,
-  Bell
+  LogOut
 } from "lucide-react";
 import NotificationPopover from "@/components/dashboard/NotificationPopover";
 

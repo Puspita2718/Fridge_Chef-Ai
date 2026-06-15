@@ -20,7 +20,7 @@ export default function Hero() {
             Your AI Kitchen Companion That <span className="bg-gradient-to-br from-primary to-secondary bg-clip-text text-transparent">Saves Money, Time & Food.</span>
           </h1>
           <p className="text-lg text-muted-foreground mb-10 max-w-lg leading-relaxed">
-            FridgeChef AI turns your leftover ingredients into gourmet experiences. Reduce waste by 35% and never ask "what's for dinner" again.
+            FridgeChef AI turns your leftover ingredients into gourmet experiences. Reduce waste by 35% and never ask &quot;what&apos;s for dinner&quot; again.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4">
@@ -93,7 +93,7 @@ export default function Hero() {
                 <div className="absolute top-0 left-0 h-full w-1/2 bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full animate-[shimmer_2s_infinite]"></div>
               </div>
               <div className="h-2 w-3/4 bg-muted rounded-full"></div>
-              <p className="text-sm font-medium mt-2 text-foreground">"Found 3 recipes with Spinach and Salmon."</p>
+              <p className="text-sm font-medium mt-2 text-foreground">&quot;Found 3 recipes with Spinach and Salmon.&quot;</p>
             </div>
           </motion.div>
         </motion.div>

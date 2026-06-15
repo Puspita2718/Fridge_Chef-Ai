@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { analyzeImageMock, DetectedItem, ImageType, VisionAnalysisResult } from "@/lib/mockVisionService";
+import { analyzeImageMock, DetectedItem, ImageType } from "@/lib/mockVisionService";
 
 type ScanState = "idle" | "uploading" | "analyzing" | "identifying" | "estimating" | "success" | "failed" | "error";
 
@@ -81,7 +81,8 @@ export default function ScannerPage() {
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as Error;
       console.error("Camera error:", err);
       if (err.name === 'NotAllowedError') {
         setCameraError("Camera permission was denied. Please allow camera access in your browser.");

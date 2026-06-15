@@ -123,8 +123,8 @@ export const analyzeImageMock = (dataUrl: string): Promise<VisionAnalysisResult>
       
       const imgData = ctx.getImageData(0, 0, size, size).data;
       
-      let rTotal = 0, gTotal = 0, bTotal = 0;
-      let brightnesses = [];
+
+      const brightnesses = [];
       let greenPixels = 0;
       let warmPixels = 0; // Red/Orange
       let whitePixels = 0;
@@ -133,10 +133,6 @@ export const analyzeImageMock = (dataUrl: string): Promise<VisionAnalysisResult>
         const r = imgData[i];
         const g = imgData[i + 1];
         const b = imgData[i + 2];
-        
-        rTotal += r;
-        gTotal += g;
-        bTotal += b;
 
         const brightness = (r * 0.299 + g * 0.587 + b * 0.114);
         brightnesses.push(brightness);
@@ -148,9 +144,6 @@ export const analyzeImageMock = (dataUrl: string): Promise<VisionAnalysisResult>
       }
 
       const pixelCount = size * size;
-      const avgR = rTotal / pixelCount;
-      const avgG = gTotal / pixelCount;
-      const avgB = bTotal / pixelCount;
       const avgBrightness = brightnesses.reduce((a, b) => a + b, 0) / pixelCount;
       
       // Calculate variance / contrast

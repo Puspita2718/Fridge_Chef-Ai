@@ -61,7 +61,7 @@ export default function Testimonials() {
               <div className="flex gap-1 mb-6 text-secondary">
                 {[1,2,3,4,5].map(star => <Star key={star} size={18} fill="currentColor" />)}
               </div>
-              <p className="text-foreground font-medium mb-8 italic">"{t.quote}"</p>
+              <p className="text-foreground font-medium mb-8 italic">&quot;{t.quote}&quot;</p>
               <div className="flex items-center gap-4">
                 <img src={t.avatar} alt={t.author} className="w-12 h-12 rounded-full border-2 border-primary/20" />
                 <div>

@@ -11,7 +11,7 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-1">
             <span className="font-sans text-2xl font-bold text-primary mb-6 block">FridgeChef AI</span>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              The world's first AI-powered kitchen operating system designed to reduce waste and inspire creativity.
+              The world&apos;s first AI-powered kitchen operating system designed to reduce waste and inspire creativity.
             </p>
           </div>
           

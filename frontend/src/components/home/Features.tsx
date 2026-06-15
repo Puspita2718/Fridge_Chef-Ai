@@ -23,7 +23,7 @@ export default function Features() {
             transition={{ delay: 0.1 }}
             className="text-lg text-muted-foreground"
           >
-            We've combined computer vision with advanced LLMs to create the ultimate kitchen OS.
+            We&apos;ve combined computer vision with advanced LLMs to create the ultimate kitchen OS.
           </motion.p>
         </div>
 

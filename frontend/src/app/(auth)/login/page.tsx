@@ -90,7 +90,7 @@ export default function Login() {
         </button>
 
         <p className="text-center mt-8 text-sm text-muted-foreground">
-          Don't have an account? <Link href="/signup" className="text-primary font-medium hover:underline">Sign Up</Link>
+          Don&apos;t have an account? <Link href="/signup" className="text-primary font-medium hover:underline">Sign Up</Link>
         </p>
       </motion.div>
     </div>
